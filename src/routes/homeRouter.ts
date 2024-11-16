@@ -2,8 +2,9 @@ import { Router, Request, Response } from "express";
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
     res.send("Home route");
+    
 });
 
 router.get('/:cardtype', (req: Request, res: Response) => {
