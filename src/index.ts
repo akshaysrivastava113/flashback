@@ -4,8 +4,10 @@ import homeRouter from "./routes/homeRouter";
 import userRouter from "./routes/userRouter";
 import apiV1Router from "./routes/apiV1Router";
 import authenticateRouter from "./routes/authenticateRouter";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use('/', homeRouter);

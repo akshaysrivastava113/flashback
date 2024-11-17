@@ -24,6 +24,7 @@ model User {
 
 model Questionaire {
   id String  @id @default(uuid())
+  title String?
   author User @relation(fields:[authorId], references: [id]) 
   authorId String
   slides Slides[]

@@ -24,7 +24,7 @@ router.post('/create', verifyToken , async (req: Request, res: Response) => {
     }
 
     const body = req.body;
-    const slidesRec = body;
+    const slidesRec = body.slidesData;
     console.log(body);
     console.log(userId.id);
 
@@ -33,6 +33,7 @@ router.post('/create', verifyToken , async (req: Request, res: Response) => {
     const createQuestionaire = await prisma.questionaire.create({
         data:{
             id: randomQuestionaireUUID,
+            title: body.questTitle,
             authorId: userId.id
         }
     });
