@@ -20,10 +20,10 @@ async function userExists(req: Request,res: Response, next: any) {
         console.error(e);
     }
 
-    if(userExists) {
-        res.status(HttpStatusCodeEnum.Conflict).send(HttpStatusMessages[HttpStatusCodeEnum.Conflict]);
-    } else {
+    if(!userExists) {
         next();
+    } else {
+        res.status(HttpStatusCodeEnum.Conflict).send(HttpStatusMessages[HttpStatusCodeEnum.Conflict]);
     }
 }
 

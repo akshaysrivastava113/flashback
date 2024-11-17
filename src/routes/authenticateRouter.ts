@@ -4,15 +4,17 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { HttpStatusCodeEnum, HttpStatusMessages } from "../constants/enums";
 import userExists from "../middleware/userExists";
+require('dotenv').config();
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const router = Router();
 import { v4 as uuidv4 } from 'uuid';
 
-const JWT_SECRET: string = process.env.JWT_SECRET || "";
+const JWT_SECRET = process.env.JWT_SECRET || "";
 
 router.post('/signup', userExists, async (req: Request, res: Response) => {
 
+    console.log("JWT_SECRET",JWT_SECRET);
     //1. check if the user already exists - middleware
     //1. receive username, password and email - santiize throough zod
     //2. hash the password
@@ -24,7 +26,7 @@ router.post('/signup', userExists, async (req: Request, res: Response) => {
     const reqValid = userSchema.safeParse(req.body);
 
     if(!reqValid.success){
-        res.status(HttpStatusCodeEnum.OK).json(HttpStatusMessages[HttpStatusCodeEnum.OK]);
+        res.status(HttpStatusCodeEnum.BadRequest).json(HttpStatusMessages[HttpStatusCodeEnum.BadRequest]);
     }
 
     const username: string = req.body.username;
@@ -53,6 +55,7 @@ router.post('/signup', userExists, async (req: Request, res: Response) => {
 
     //5. DONE generate jwt token using the id, username and email
     const token = jwt.sign({
+        id: randomUserUUID,
         email: email
     }, JWT_SECRET);
 
@@ -90,7 +93,8 @@ router.post('/signin', async (req: Request, res: Response): Promise<any> => {
         return res.status(HttpStatusCodeEnum.NotFound).send(HttpStatusMessages[HttpStatusCodeEnum.NotFound]);
     }
 
-    const userHashed: any = foundUser?.password;
+    const userHashed = foundUser?.password;
+    const userUuid = foundUser?.id;
     const isValidUser = await bcrypt.compare(password, userHashed);
 
     if(!isValidUser){
@@ -98,6 +102,7 @@ router.post('/signin', async (req: Request, res: Response): Promise<any> => {
     }
 
     const token = jwt.sign({
+        id: userUuid,
         email: email
     }, JWT_SECRET);
 
