@@ -16,8 +16,8 @@ app.use('/auth', authenticateRouter);
 app.use('/api/v1', apiV1Router);
 
 dotenv.config();
-const PORT = process.env.PORT || 3000;
+const PORT: string | any = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0',  () => {
     console.log(`Listening on ${PORT}`);
 });

@@ -1,35 +1,54 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import QuestionaireDisplay from "./QuestionaireDisplay";
+import Cookies from "js-cookie";
+import bgImage1 from '../../public/a_cartoony_textless_science_trivia_youtube_thumbnail.jpeg';
+import bgImage2 from '../../public/cartoony_textless_maths_trivia_youtube_thumbnail.jpeg';
+import bgImage3 from '../../public/cartoony_textless_history_trivia_youtube_thumbnail_with.jpeg';
+import PublicErrorPage from "./PublicErrorPage";
 
 export default function Home() {
+    const signedIntoken: string = Cookies.get("fl-token");
+    const signedInUser: boolean = Cookies.get("fl-token")?true:false;
     interface Quest {
         id: string;
         title: string;
         authorId: string;
     }
 
+    const backend_url = process.env.REACT_APP_BACKEND_URL;
+
     const [questionaires, setQuestionaires] = useState<Quest[]>([]);
+    let bgImageUrl: string;
     useEffect(() => {
         const fetchData = async () => {
-            const allQuestionaires = await axios.get<Quest[]>('http://localhost:3000/', {
+            const allQuestionaires = await axios.get<Quest[]>(`${backend_url}/`, {
                 headers: {
-                    "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFhMWMxZGI0LTM4NDQtNDQ5NS05YzAxLTZiOTk0MGUyMTU3ZiIsImVtYWlsIjoibWFpbm1haW5AdGVzdC5jb20iLCJpYXQiOjE3MzE4NjI0NDV9.nl9eBrQj9NVf48mRmEZ6wLds5FskrTGdjqRFIsUNCJY"
+                    "Authorization":`Bearer ${signedIntoken}`
                 }
             });
             setQuestionaires(allQuestionaires.data);
             console.log(questionaires);
         };
         fetchData();
-    },[])
+    },[]);
+
     return (
-        <div id="home" className="flex justify-center">
+        <div id="home" className={`flex ${signedInUser?'justify-start':'justify-center'}`}>
             <div className="flex justify-center">
-                {questionaires.map((questItem) => {
+                {signedInUser?questionaires.map((questItem) => {
+                    if(questItem.title === "Science"){
+                        bgImageUrl = bgImage1;
+                    } else if(questItem.title === "Maths"){
+                        bgImageUrl = bgImage2;
+                    } else if (questItem.title === "History"){
+                        bgImageUrl = bgImage3;
+                    }
                     return (
-                        <QuestionaireDisplay key={questItem.id} id={questItem.id} title={questItem.title} />
+
+                        <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} />
                     )
-                })}
+                }):<PublicErrorPage/>}
           </div>
         </div>
     )

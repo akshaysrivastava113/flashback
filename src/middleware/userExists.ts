@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import { HttpStatusCodeEnum, HttpStatusMessages } from "../constants/enums";
 
-async function userExists(req: Request,res: Response, next: any) {
+async function userExists(req: Request,res: Response, next: any): Promise<any> {
     
     const email: string = req.body.email;
 
@@ -23,7 +23,7 @@ async function userExists(req: Request,res: Response, next: any) {
     if(!userExists) {
         next();
     } else {
-        res.status(HttpStatusCodeEnum.Conflict).send(HttpStatusMessages[HttpStatusCodeEnum.Conflict]);
+        return res.status(HttpStatusCodeEnum.Conflict).send(HttpStatusMessages[HttpStatusCodeEnum.Conflict]);
     }
 }
 

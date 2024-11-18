@@ -1,14 +1,18 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import QuestionaireDisplay from "./QuestionaireDisplay";
 import { useParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
 interface Params {
     questIdParam: string; // Define the expected parameters
   }
 
+  const backend_url = process.env.REACT_APP_BACKEND_URL;
+
 export default function SlidesDisplay() {
     const { questIdParam } = useParams<Params>();
+    const signedIntoken: string = Cookies.get("fl-token");
+    const signedInUser: boolean = Cookies.get("fl-token")?true:false;
 
     interface Slides {
         id: string;
@@ -17,12 +21,13 @@ export default function SlidesDisplay() {
     }
 
     const [slidesState, setSlidesState] = useState<Slides[]>([]);
+    const [displayAns, setDisplayAns] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
-            console.log(questIdParam);
-            const allSlides = await axios.get<Slides[]>(`http://localhost:3000/${questIdParam}`, {
+            console.log(`${backend_url}/${questIdParam}`);
+            const allSlides = await axios.get<Slides[]>(`${backend_url}/${questIdParam}`, {
                 headers: {
-                    "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFhMWMxZGI0LTM4NDQtNDQ5NS05YzAxLTZiOTk0MGUyMTU3ZiIsImVtYWlsIjoibWFpbm1haW5AdGVzdC5jb20iLCJpYXQiOjE3MzE4NjI0NDV9.nl9eBrQj9NVf48mRmEZ6wLds5FskrTGdjqRFIsUNCJY"
+                     "Authorization":`Bearer ${signedIntoken}`
                 }
             });
             setSlidesState(allSlides.data);
@@ -33,11 +38,11 @@ export default function SlidesDisplay() {
     return (
         <div id="home" className="flex justify-center">
             <div className="flex flex-col justify-center items-center">
-                {slidesState.map((slideItem) => {
+                {signedInUser&&slidesState.map((slideItem) => {
                     return (
-                        <div className="border-2 m-2 p-2">
+                        <div onClick={() => setDisplayAns(true)} className="border-2 m-2 p-2">
                             <p>{slideItem.ask}</p>
-                            <p>{slideItem.answer}</p>
+                            {displayAns&&<p>{slideItem.answer}</p>}
                         </div>
                     )
                 })}
