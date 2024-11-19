@@ -14,9 +14,6 @@ const JWT_SECRET = process.env.JWT_SECRET || "";
 
 router.post('/signup', userExists, async (req: Request, res: Response): Promise<any> => {
 
-    console.log("JWT_SECRET",JWT_SECRET);
-    console.log(req.body);
-
     //1. check if the user already exists - middleware
     //1. receive username, password and email - santiize throough zod
     //2. hash the password
@@ -26,7 +23,6 @@ router.post('/signup', userExists, async (req: Request, res: Response): Promise<
 
     //1. DONE receive username, password and email - santiize throiough zod
     const reqValid = userSchema.safeParse(req.body);
-    console.log(reqValid);
     
     if(!reqValid.success){
         return res.status(HttpStatusCodeEnum.BadRequest).json(HttpStatusMessages[HttpStatusCodeEnum.BadRequest]);
@@ -61,8 +57,6 @@ router.post('/signup', userExists, async (req: Request, res: Response): Promise<
         id: randomUserUUID,
         email: email
     }, JWT_SECRET);
-
-    console.log(createUser);
 
     //6. DONE respond back with the token
     res.status(HttpStatusCodeEnum.OK).json({

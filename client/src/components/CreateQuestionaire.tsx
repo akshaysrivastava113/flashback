@@ -3,8 +3,14 @@ import minusSign from "../../public/minus.svg";
 import plusSign from "../../public/plus.svg";
 import doubleLeftArrow from "../../public/doubleLeftArrow.svg";
 import rightLeftArrow from "../../public/doubleRightArrow.svg";
+import axios from "axios";
+import Cookies from "js-cookie";
+
+const signedIntoken: string = Cookies.get("fl-token");
 
 export default function CreateQuestionaire(props: any){
+    const backend_url = process.env.REACT_APP_BACKEND_URL;
+    console.log(signedIntoken);
     const MIN_LIMIT = 1;
     const MAX_LIMIT = 10;
     const [qTitle, setQTitle] = useState("");
@@ -70,6 +76,27 @@ export default function CreateQuestionaire(props: any){
                         </div>
                         )
                     })}
+               </div>
+
+               <div className="w-96 flex flex-wrap justify-center">
+                    <button className=" w-full border-2 m-2 p-1 bg-red-400 text-white font-semibold" onClick={() => {
+                        const finalObj = {
+                            questTitle: qTitle,
+                            slidesData: slidesData
+                        };
+
+                        axios.post(`${backend_url}`+`/api/v1/create`, finalObj, {
+                            headers: {
+                                "Authorization":`Bearer ${signedIntoken}`
+                           }
+                        })
+                        .then((res) => {
+                            console.log(res);
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        })
+                    }} >Submit</button>
                </div>
 
             </div>

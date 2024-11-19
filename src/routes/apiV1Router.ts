@@ -25,8 +25,6 @@ router.post('/create', verifyToken , async (req: Request, res: Response) => {
 
     const body = req.body;
     const slidesRec = body.slidesData;
-    console.log(body);
-    console.log(userId.id);
 
     const randomQuestionaireUUID: string = uuidv4();
 

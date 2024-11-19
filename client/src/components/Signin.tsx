@@ -4,14 +4,13 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 const backend_url = process.env.REACT_APP_BACKEND_URL;
-const expiryTime = 5/1440;
+const expiryTime = 30/1440;
 export default function Signin(){
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
     const navigate = useNavigate();
 
     function sendSignupReq() {
-        console.log("Pressed");
 
         axios.post(`${backend_url}/auth/signin`, {
             "email": emailInput,

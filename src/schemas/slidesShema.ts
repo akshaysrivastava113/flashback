@@ -8,6 +8,7 @@ z.object(
         (z.object
             (
                 {
+                    id: z.number().optional(),
                     ask: z.string(),
                     answer: z.string()
                 }
