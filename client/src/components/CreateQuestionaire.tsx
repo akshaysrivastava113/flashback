@@ -11,8 +11,13 @@ export default function CreateQuestionaire(props: any){
     const [noOfSlides, setNoOfSlides] = useState(1);
     const [ask, setAsk] = useState("");
     const [answer, setAnswer] = useState("");
-    const [slidesData, setSlidesData] = useState([]);
-
+    interface slidesInter {
+        id: number;
+        ask: string;
+        answer: string
+    }
+    const [slidesData, setSlidesData] = useState<any>([]);
+    const [id, setId] = useState(0);
 
     return (
         <div className="flex justify-center">
@@ -23,49 +28,49 @@ export default function CreateQuestionaire(props: any){
                     <input onChange={(e) => setQTitle(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="john.doe@flashback.com" />
                 </div>
 
-                <div id="number-slides" className="w-96 flex flex-col justify-start mb-4">
+                {/* <div id="number-slides" className="w-96 flex flex-col justify-start mb-4">
                     <label className="mr-4 ml-4 mb-2 w-64 font-semibold">Choose number of slides</label>
                     <div id="number-controller" className="flex justify-start items-center m-2 p-2">
                         <img onClick={() => setNoOfSlides(noOfSlides => (noOfSlides > MIN_LIMIT ? noOfSlides-1 : noOfSlides))} src={minusSign} className="mr-4 w-8 h-8 cursor-pointer"/>
                         <p className="text-2xl">{noOfSlides}</p>
-                        <img onClick={() => setNoOfSlides(noOfSlides => (noOfSlides < MAX_LIMIT ? noOfSlides+1 : noOfSlides))} src={plusSign} className="ml-4 w-8 h-8 cursor-pointer"/>
+                        
                     </div>
-                </div>
-
-                <div className="w-full flex justify-center flex-wrap mb-4 p-2">
-                    {slidesData.map((slideData): any => {
-                        return (
-                            <div className="flex flex-col border-2 m-2 p-2">
-                                <p>{slideData.ask}</p>
-                                <p>{slideData.answer}</p>
-                            </div>
-                        )
-                    })}
-                </div>
-                
+                </div> */}
+     
                 <div className="w-96 flex flex-col justify-start mb-4 mt-6">
                     <label className="mr-4 ml-4 mb-2 w-44 font-semibold">Slide 1/<span>{noOfSlides}</span></label>
                     <input onChange={(e) => setAsk(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="question" />
                     <textarea onChange={(e) => setAnswer(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="answer" />
-                </div>
-
-                <div className="w-96 flex justify-center mb-4 p-2">
                     <img onClick={() => {
-                        setSlidesData((prevItems ): any => {
-                            const newItems = [...prevItems];
-                            if(newItems.length > 0) newItems.pop();
-                            return newItems;
-                        });
-                    }} src={doubleLeftArrow} className="mr-4 w-12 h-12 p-2 cursor-pointer border-2 border-stone-300 rounded-md hover:bg-gray-200"/>
-                    <img onClick={() => {
+                        setId(prevId => prevId+1);
                         const newItem = {
+                            id : id,
                             ask: ask,
                             answer: answer
                         };
-                        if(slidesData.length < noOfSlides)
-                        setSlidesData((slidesData): any => [...slidesData, newItem]);
-                    }} src={rightLeftArrow} className="ml-4 w-12 h-12 p-2 cursor-pointer border-2 border-stone-300 rounded-md hover:bg-gray-200"/>
+
+                        setSlidesData((prevState: any) => [...prevState, newItem]);
+                    }} src={plusSign} className="ml-4 w-8 h-8 cursor-pointer"/>
                 </div>
+
+
+                <div className="w-full flex flex-wrap justify-center mb-4 p-2 border-2">
+                    {slidesData.map((slide: any) => {
+                        return (
+                        <div className="w-44 truncate flex flex-col justify-center m-2 p-2 border-2">
+                            <p className="text-xl">{slide.ask}</p>
+                            <p className="text-xl">{slide.answer}</p>
+                            <button onClick={() => {
+                                console.log(slide.id);
+                                setSlidesData((prevArray: any) => {
+                                    const newArray = prevArray.filter((item: any) => item.id !== slide.id);
+                                    return newArray;
+                                })
+                            }}>Delete</button>
+                        </div>
+                        )
+                    })}
+               </div>
 
             </div>
         </div>
