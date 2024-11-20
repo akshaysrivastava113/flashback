@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { RotateLoader } from 'react-spinners';
 import doubleLeftArrow from '../../public/doubleLeftArrow.svg';
 import doubleRightArrow from '../../public/doubleRightArrow.svg';
+import PublicErrorPage from "./PublicErrorPage";
 
 interface Params {
     questIdParam: string; // Define the expected parameters
@@ -28,19 +29,14 @@ export default function SlidesDisplay() {
     const [rightArrowStyle, setRightArrowStyle] = useState("opacity-100");
 
     useEffect(() => {
-        console.log("ran visible");
         if(currentSlide>0){
-            console.log("left visible");
             setLeftArrowStyle("opacity-100");
         } else {
-            console.log("left dis");
             setLeftArrowStyle("opacity-20");
         }
         if(!totalSlides || currentSlide<totalSlides-1){
-            console.log("right visible");
             setRightArrowStyle("opacity-100"); 
         } else {
-            console.log("right dis");
             setRightArrowStyle("opacity-20");
         }
     }, [currentSlide]);
@@ -53,7 +49,7 @@ export default function SlidesDisplay() {
 
     const [slidesState, setSlidesState] = useState<Slides[]>();
     const [displayAns, setDisplayAns] = useState(false);
-
+    const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a href="/signin">sign in</a> to continue.</p></>);
     
         useEffect(() => {
             currentSlide = 0;
@@ -63,6 +59,7 @@ export default function SlidesDisplay() {
                 }
             }).then((allSlides) => {
 
+                console.log(allSlides.data);
                 setSlidesState(allSlides.data);
                 setTotalSlides(allSlides.data.length);
                 setLoading(false);
@@ -86,7 +83,7 @@ export default function SlidesDisplay() {
     return (
         
         <div id="home" className="flex flex-col justify-center items-center mt-44">
-            {signedInUser&&
+            {signedInUser?
             <>
             <div className="flex justify-center items-center w-full">
 
@@ -96,9 +93,6 @@ export default function SlidesDisplay() {
                         setCurrentAsk(slidesState&&slidesState[currentSlide].ask || "");
                         setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
                         setDisplayAns(false);
-                        console.log("currentSlide",currentSlide);
-                        console.log("totalSlides",totalSlides);
-                    } else {
                     }
                 }}  className={`flex flex-col justify-center items-center mr-12 ${leftArrowStyle}`}>
                     <img src={doubleLeftArrow}  className="w-8 h-8 cursor-pointer"/>
@@ -117,7 +111,6 @@ export default function SlidesDisplay() {
                         setDisplayAns(false);
                         console.log("currentSlide",currentSlide);
                         console.log("totalSlides",totalSlides);
-                    } else {
                     }
                 }} className={`flex flex-col justify-center items-center ml-12 ${rightArrowStyle}`}>
                     <img src={doubleRightArrow}  className="w-8 h-8 cursor-pointer"/>
@@ -132,7 +125,7 @@ export default function SlidesDisplay() {
                 </button> 
             </div>
             </>
-          }
+          :<PublicErrorPage text={errorText} />}
         </div>
     )
 }

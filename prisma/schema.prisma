@@ -32,6 +32,7 @@ model Questionaire {
 
 model Slides {
   id String @id @default(uuid())
+  position Int?
   ask String
   answer String
   question Questionaire @relation(fields: [questionId], references: [id])

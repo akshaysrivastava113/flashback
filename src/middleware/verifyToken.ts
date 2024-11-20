@@ -8,6 +8,9 @@ function verifyToken(req:Request, res:Response, next:NextFunction): any {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1] || "";
 
+    console.log(JWT_SECRET);
+    console.log(token);
+    
     if (!JWT_SECRET) {
         console.error(HttpStatusCodeEnum.InternalServerError);
         return res.status(HttpStatusCodeEnum.InternalServerError).send(HttpStatusMessages[HttpStatusCodeEnum.InternalServerError]);

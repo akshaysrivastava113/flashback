@@ -47,6 +47,8 @@ export default function Home() {
             
     },[]);
 
+    const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a href="/signin">sign in</a> to continue.</p></>);
+
     if(loading) {
         return (
             <div className="h-screen flex justify-center items-center">
@@ -72,7 +74,7 @@ export default function Home() {
 
                         <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} />
                     )
-                }):<PublicErrorPage/>}
+                }):<PublicErrorPage text={errorText}/>}
           </div>
         </div>
     )

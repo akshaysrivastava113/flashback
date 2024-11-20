@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
 
-router.post('/create', verifyToken , async (req: Request, res: Response) => {
+router.post('/create', verifyToken , async (req: Request, res: Response): Promise<any> => {
     //1. Accept token from the header
     //2. verify the token
     //3. Accept quest and answer array from the body
@@ -18,9 +18,9 @@ router.post('/create', verifyToken , async (req: Request, res: Response) => {
     const userId = (req as any).userId;
 
     const bodySanitized = questionaireSchema.safeParse(req.body);
-
+    console.log(bodySanitized);
     if(!bodySanitized.success){
-        res.status(HttpStatusCodeEnum.BadRequest).json(HttpStatusMessages[HttpStatusCodeEnum.BadRequest]);
+        return res.status(HttpStatusCodeEnum.BadRequest).json(HttpStatusMessages[HttpStatusCodeEnum.BadRequest]);
     }
 
     const body = req.body;
@@ -42,6 +42,7 @@ router.post('/create', verifyToken , async (req: Request, res: Response) => {
         const createSlides = await prisma.slides.create({
             data:{
                 id: randomSlidesUUID,
+                position: slideRec.id,
                 ask: slideRec.ask,
                 answer: slideRec.answer,
                 questionId: randomQuestionaireUUID

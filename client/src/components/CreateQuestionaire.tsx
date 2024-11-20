@@ -6,6 +6,7 @@ import rightLeftArrow from "../../public/doubleRightArrow.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { BeatLoader } from 'react-spinners';
 
 const signedIntoken: string = Cookies.get("fl-token");
 
@@ -25,14 +26,17 @@ export default function CreateQuestionaire(props: any){
     }
     const [slidesData, setSlidesData] = useState<any>([]);
     const [id, setId] = useState(0);
+    const [loading, setLoading] = useState(false);
 
+    console.log(backend_url);
+    console.log(signedIntoken);
     return (
         <div className="flex justify-center">
             <div id="questionaire-form" className="flex flex-col justify-center items-center mt-32 m-5 p-5 w-2/3">
 
                 <div className="w-96 flex flex-col justify-start mb-4">
                     <label className="mr-4 ml-4 mb-2 w-44 font-semibold">Questionaire Title</label>
-                    <input onChange={(e) => setQTitle(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="john.doe@flashback.com" />
+                    <input onChange={(e) => setQTitle(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="title" />
                 </div>
 
                 {/* <div id="number-slides" className="w-96 flex flex-col justify-start mb-4">
@@ -48,6 +52,7 @@ export default function CreateQuestionaire(props: any){
                     <label className="mr-4 ml-4 mb-2 w-44 font-semibold">Slide 1/<span>{noOfSlides}</span></label>
                     <input onChange={(e) => setAsk(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="question" />
                     <textarea onChange={(e) => setAnswer(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="answer" />
+                        <div className="flex justify-center mt-4">
                     <img onClick={() => {
                         setId(prevId => prevId+1);
                         const newItem = {
@@ -58,6 +63,7 @@ export default function CreateQuestionaire(props: any){
 
                         setSlidesData((prevState: any) => [...prevState, newItem]);
                     }} src={plusSign} className="ml-4 w-8 h-8 cursor-pointer"/>
+                    </div>
                 </div>
 
 
@@ -79,7 +85,8 @@ export default function CreateQuestionaire(props: any){
                </div>
 
                <div className="w-96 flex flex-wrap justify-center">
-                    <button className=" w-full border-2 m-2 p-1 bg-red-400 text-white font-semibold" onClick={() => {
+                    <button className={`w-full border-2 m-2 p-1 bg-red-400 text-white font-semibold ${loading?'opacity-20':'opacity-100'}`} onClick={() => {
+                        setLoading(true);
                         const finalObj = {
                             questTitle: qTitle,
                             slidesData: slidesData
@@ -97,7 +104,10 @@ export default function CreateQuestionaire(props: any){
                         .catch((err) => {
                             console.error(err);
                         })
-                    }} >Publish</button>
+                        .finally(() => {
+                            setLoading(false);
+                        })
+                    }} >{loading?<BeatLoader color="#FFFFFF" size={5} />:"Publish"}</button>
                </div>
 
             </div>

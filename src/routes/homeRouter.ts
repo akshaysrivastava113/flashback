@@ -29,6 +29,9 @@ router.get('/quest/:questionaireIdUrl', verifyToken, async (req: Request, res: R
           },
         where: {
             questionId: questionaireIdUrl
+        },
+        orderBy: {
+            id: "asc"
         }
     });
     res.status(HttpStatusCodeEnum.OK).json(allSlidesOfQ);
