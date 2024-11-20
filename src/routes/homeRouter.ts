@@ -18,7 +18,7 @@ router.get('/', verifyToken, async (req: Request, res: Response) => {
     res.status(HttpStatusCodeEnum.OK).json(allQuestionaires);
 });
 
-router.get('/:questionaireIdUrl', verifyToken, async (req: Request, res: Response) => {
+router.get('/quest/:questionaireIdUrl', verifyToken, async (req: Request, res: Response) => {
     const questionaireIdUrl = req.params.questionaireIdUrl;
     console.log(questionaireIdUrl);
     const allSlidesOfQ = await prisma.slides.findMany({

@@ -6,6 +6,7 @@ import bgImage1 from '../../public/a_cartoony_textless_science_trivia_youtube_th
 import bgImage2 from '../../public/cartoony_textless_maths_trivia_youtube_thumbnail.jpeg';
 import bgImage3 from '../../public/cartoony_textless_history_trivia_youtube_thumbnail_with.jpeg';
 import PublicErrorPage from "./PublicErrorPage";
+import { RotateLoader } from 'react-spinners';
 
 export default function Home() {
     const signedIntoken: string = Cookies.get("fl-token");
@@ -19,23 +20,46 @@ export default function Home() {
     const backend_url = process.env.REACT_APP_BACKEND_URL;
 
     const [questionaires, setQuestionaires] = useState<Quest[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [count, setCount] = useState(0);
     let bgImageUrl: string;
+
     useEffect(() => {
-        const fetchData = async () => {
-            const allQuestionaires = await axios.get<Quest[]>(`${backend_url}/`, {
-                headers: {
-                    "Authorization":`Bearer ${signedIntoken}`
-                }
-            });
-            setQuestionaires(allQuestionaires.data);
-            console.log(questionaires);
-        };
+        const fetchData = async() => {
+            try {
+                const allQuestionaires = await axios.get<Quest[]>(`${backend_url}/`, {
+                    headers: {
+                        "Authorization":`Bearer ${signedIntoken}`
+                    }
+                })
+    
+                setQuestionaires(allQuestionaires.data);
+                console.log("questionaires",questionaires);
+                console.log("questionaires",questionaires);
+                setLoading(false);
+            }catch(e){
+                console.error(e);
+                setLoading(false);
+            }
+        }
+
         fetchData();
+            
     },[]);
 
+    if(loading) {
+        return (
+            <div className="h-screen flex justify-center items-center">
+                <RotateLoader color="#F87171" loading={loading} />
+            </div>
+        )
+    }
+
+
     return (
-        <div id="home" className={`flex ${signedInUser?'justify-start':'justify-center'}`}>
-            <div className="flex justify-center">
+        <div id="home" className={`flex flex-wrap ${signedInUser?'justify-start':'justify-center'}`}>
+            <div className="flex justify-center flex-wrap">
+                
                 {signedInUser?questionaires.map((questItem) => {
                     if(questItem.title === "Science"){
                         bgImageUrl = bgImage1;

@@ -5,14 +5,15 @@ import doubleLeftArrow from "../../public/doubleLeftArrow.svg";
 import rightLeftArrow from "../../public/doubleRightArrow.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const signedIntoken: string = Cookies.get("fl-token");
 
 export default function CreateQuestionaire(props: any){
     const backend_url = process.env.REACT_APP_BACKEND_URL;
-    console.log(signedIntoken);
     const MIN_LIMIT = 1;
     const MAX_LIMIT = 10;
+    const navigate = useNavigate();
     const [qTitle, setQTitle] = useState("");
     const [noOfSlides, setNoOfSlides] = useState(1);
     const [ask, setAsk] = useState("");
@@ -67,7 +68,6 @@ export default function CreateQuestionaire(props: any){
                             <p className="text-xl">{slide.ask}</p>
                             <p className="text-xl">{slide.answer}</p>
                             <button onClick={() => {
-                                console.log(slide.id);
                                 setSlidesData((prevArray: any) => {
                                     const newArray = prevArray.filter((item: any) => item.id !== slide.id);
                                     return newArray;
@@ -92,11 +92,12 @@ export default function CreateQuestionaire(props: any){
                         })
                         .then((res) => {
                             console.log(res);
+                            navigate('/');
                         })
                         .catch((err) => {
                             console.error(err);
                         })
-                    }} >Submit</button>
+                    }} >Publish</button>
                </div>
 
             </div>
