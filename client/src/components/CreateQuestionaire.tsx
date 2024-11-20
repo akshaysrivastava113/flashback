@@ -39,30 +39,25 @@ export default function CreateQuestionaire(props: any){
                     <input onChange={(e) => setQTitle(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="title" />
                 </div>
 
-                {/* <div id="number-slides" className="w-96 flex flex-col justify-start mb-4">
-                    <label className="mr-4 ml-4 mb-2 w-64 font-semibold">Choose number of slides</label>
-                    <div id="number-controller" className="flex justify-start items-center m-2 p-2">
-                        <img onClick={() => setNoOfSlides(noOfSlides => (noOfSlides > MIN_LIMIT ? noOfSlides-1 : noOfSlides))} src={minusSign} className="mr-4 w-8 h-8 cursor-pointer"/>
-                        <p className="text-2xl">{noOfSlides}</p>
-                        
-                    </div>
-                </div> */}
      
                 <div className="w-96 flex flex-col justify-start mb-4 mt-6">
                     <label className="mr-4 ml-4 mb-2 w-44 font-semibold">Slide 1/<span>{noOfSlides}</span></label>
                     <input onChange={(e) => setAsk(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="question" />
                     <textarea onChange={(e) => setAnswer(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="answer" />
                         <div className="flex justify-center mt-4">
-                    <img onClick={() => {
+                        <button onClick={() => {
                         setId(prevId => prevId+1);
                         const newItem = {
                             id : id,
                             ask: ask,
                             answer: answer
                         };
-
                         setSlidesData((prevState: any) => [...prevState, newItem]);
-                    }} src={plusSign} className="ml-4 w-8 h-8 cursor-pointer"/>
+                        }} className="px-6 py-2 bg-gradient-to-r from-indigo-300 to-purple-300 text-white font-bold rounded-lg shadow-lg relative overflow-hidden group transition-transform transform hover:scale-105">
+                        <span className="absolute top-0 left-0 w-full h-0 bg-white opacity-20 transition-all duration-300 group-hover:h-full"></span>
+                        <span className="flex justify-center items-center">Add <img src={plusSign} className="ml-4 w-8 h-8 cursor-pointertext-white "/></span>
+                        </button> 
+                    
                     </div>
                 </div>
 
