@@ -6,6 +6,8 @@ import logoMain from "../../public/logo.svg";
 import signout from "../../public/singout.svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { profileSelected } from "../store/atoms/profileSelected";
 const backend_url = process.env.REACT_APP_BACKEND_URL;
 
 export default function Header() {
@@ -15,7 +17,7 @@ export default function Header() {
     const [username, setUsername] = useState("");
     const [userEmail, setUserEmail] = useState("");
     const [badges, setBadges] = useState("");
-    const [profileClicked, setProfileClicked] = useState(false);
+    const [profileSelectedd, setProfileSelectedd] = useState(false);
 
     useEffect(() => {
         if(signedInUser){
@@ -38,6 +40,7 @@ export default function Header() {
     }, [signedInUser]);
 
     return (
+        <>
         <div id="header" className="w-full bg-red-400 flex justify-between items-center h-16">
 
 
@@ -57,17 +60,26 @@ export default function Header() {
                 <>
                 <PrimaryButton text="Create" navigateTo="/create"/>
                 <div onClick={() => {
-                        if(!profileClicked){
-                            setProfileClicked(true);
+                        if(!profileSelectedd){
+                            setProfileSelectedd(true);
                         } else {
-                            setProfileClicked(false);
+                            setProfileSelectedd(false);
                         }
                     }} className="ml-4 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
                 </div>
-                {profileClicked&&<div id="profile-window" className="absolute top-12 right-8 border-2 bg-white min-w-32 rounded-md flex flex-col justify-start items-start m-2 p-1">
+                
+                </>
+                }
+                
+            </div>
+
+        </div>
+        {profileSelectedd&&
+            <div id="backlayer" className="w-full h-full absolute flex justify-end" onClick={() => setProfileSelectedd(false)}>
+                <div id="profile-window" className=" border-2 bg-white w-fit h-fit rounded-md flex flex-col justify-start items-start m-2 p-1">
                     <div>
                         <p className=" font-bold py-0 px-1 text-lg">{username}</p>
                         <p className="py-0 px-1 text-md">{userEmail}</p>
@@ -84,12 +96,9 @@ export default function Header() {
                         {/* <img  src={signout} className="ml-4 w-8 h-8 cursor-pointer"/> */}
                         <p className="flex justify-center items-center p-1 hover:bg-gray-200 rounded-lg">Sign Out <img src={signout} className="m-2 w-8 h-8 cursor-pointer"/></p>
                     </div>
-                </div>}
-                </>
-                }
-                
+                </div>
             </div>
-
-        </div>
+            }
+            </>
     )
 }

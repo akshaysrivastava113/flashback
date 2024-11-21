@@ -7,18 +7,20 @@ import bgImage2 from '../../public/cartoony_textless_maths_trivia_youtube_thumbn
 import bgImage3 from '../../public/cartoony_textless_history_trivia_youtube_thumbnail_with.jpeg';
 import PublicErrorPage from "./PublicErrorPage";
 import { RotateLoader } from 'react-spinners';
+import { useRecoilState } from "recoil";
+import { profileSelected } from "../store/atoms/profileSelected";
+
+interface Quest {
+    id: string;
+    title: string;
+    authorId: string;
+}
+
 
 export default function Home() {
     const signedIntoken: string = Cookies.get("fl-token");
     const signedInUser: boolean = Cookies.get("fl-token")?true:false;
-    interface Quest {
-        id: string;
-        title: string;
-        authorId: string;
-    }
-
     const backend_url = process.env.REACT_APP_BACKEND_URL;
-
     const [questionaires, setQuestionaires] = useState<Quest[]>([]);
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState(0);
@@ -60,7 +62,7 @@ export default function Home() {
 
 
     return (
-        <div id="home" className={`flex flex-wrap ${signedInUser?'justify-start':'justify-center'}`}>
+        <div id="home" className={`flex flex-wrap h-screen ${signedInUser?'justify-start':'justify-center'}`}>
             <div className="flex justify-center flex-wrap">
                 
                 {signedInUser?questionaires.map((questItem) => {
