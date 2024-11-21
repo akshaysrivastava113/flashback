@@ -143,7 +143,7 @@ export default function CreateQuestionaire(props: any){
 
             </div>
             <div className="w-full flex justify-center mt-20">
-                <div className="w-2/3 flex justify-end">
+                <div className="w-2/3 flex justify-center">
                     <button className={`w-64 border-2  p-1 bg-red-400 text-white font-semibold ${loading?'opacity-20':'opacity-100'}`} onClick={() => {
 
                         if(qTitle === "") setQTitleBlank(true);

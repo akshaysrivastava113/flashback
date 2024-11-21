@@ -20,12 +20,13 @@ export default function Home() {
     const backend_url = process.env.REACT_APP_BACKEND_URL;
 
     const [questionaires, setQuestionaires] = useState<Quest[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [count, setCount] = useState(0);
     let bgImageUrl: string;
 
     useEffect(() => {
         const fetchData = async() => {
+            setLoading(true);
             try {
                 const allQuestionaires = await axios.get<Quest[]>(`${backend_url}/`, {
                     headers: {
@@ -41,7 +42,9 @@ export default function Home() {
             }
         }
 
-        fetchData();
+        if(signedInUser){
+            fetchData();
+        }
             
     },[]);
 

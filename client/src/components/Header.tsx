@@ -4,9 +4,39 @@ import SecondaryButton from "./SecondaryButton";
 import Cookies from "js-cookie";
 import logoMain from "../../public/logo.svg";
 import signout from "../../public/singout.svg";
+import { useEffect, useState } from "react";
+import axios from "axios";
+const backend_url = process.env.REACT_APP_BACKEND_URL;
+
 export default function Header() {
     const navigate = useNavigate();
+    const signedIntoken: string = Cookies.get("fl-token");
     const signedInUser: boolean = Cookies.get("fl-token")?true:false;
+    const [username, setUsername] = useState("");
+    const [userEmail, setUserEmail] = useState("");
+    const [badges, setBadges] = useState("");
+    const [profileClicked, setProfileClicked] = useState(false);
+
+    useEffect(() => {
+        if(signedInUser){
+            axios.get(`${backend_url}/user/dets`, {
+                headers: {
+                    "Authorization":`Bearer ${signedIntoken}`
+               }
+            })
+            .then((res) => {
+                console.log("ran");
+                console.log(res);
+                setUsername(res.data.username);
+                setUserEmail(res.data.email);
+                setBadges(res.data.badges);
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+        }
+    }, [signedInUser]);
+
     return (
         <div id="header" className="w-full bg-red-400 flex justify-between items-center h-16">
 
@@ -17,7 +47,7 @@ export default function Header() {
             </div>
             
 
-            <div id="header-right" className="cursor-pointer flex justify-center items-center mr-4">
+            <div id="header-right" className="flex justify-center items-center mr-10">
                 {!signedInUser?
                 <>
                 <SecondaryButton text="Register" navigateTo="/signup"/>
@@ -26,18 +56,35 @@ export default function Header() {
                 :
                 <>
                 <PrimaryButton text="Create" navigateTo="/create"/>
-                <div onClick={() => navigate('/profile')} className="ml-4">
+                <div onClick={() => {
+                        if(!profileClicked){
+                            setProfileClicked(true);
+                        } else {
+                            setProfileClicked(false);
+                        }
+                    }} className="ml-4 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
                 </div>
-                <div>
-                    <img onClick={() => {
-                            Cookies.remove('fl-token');
-                            navigate('/');
-                            window.location.reload();
-                        }} src={signout} className="ml-4 w-8 h-8 cursor-pointer"/>
-                </div>
+                {profileClicked&&<div id="profile-window" className="absolute top-12 right-8 border-2 bg-white min-w-32 rounded-md flex flex-col justify-start items-start m-2 p-1">
+                    <div>
+                        <p className=" font-bold py-0 px-1 text-lg">{username}</p>
+                        <p className="py-0 px-1 text-md">{userEmail}</p>
+                        <p className="p-1 text-md text-gray-500">{badges}</p>
+                    </div>
+                    <div onClick={() => navigate('/profile')} className="w-full cursor-pointer hover:bg-gray-200">
+                    <p  className="p-1 text-md">Profile</p>
+                    </div>
+                    <div className="cursor-pointer w-full" onClick={() => {
+                                Cookies.remove('fl-token');
+                                navigate('/');
+                                window.location.reload();
+                            }}>
+                        {/* <img  src={signout} className="ml-4 w-8 h-8 cursor-pointer"/> */}
+                        <p className="flex justify-center items-center p-1 hover:bg-gray-200 rounded-lg">Sign Out <img src={signout} className="m-2 w-8 h-8 cursor-pointer"/></p>
+                    </div>
+                </div>}
                 </>
                 }
                 
