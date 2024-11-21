@@ -18,7 +18,6 @@ router.post('/create', verifyToken , async (req: Request, res: Response): Promis
     const userId = (req as any).userId;
 
     const bodySanitized = questionaireSchema.safeParse(req.body);
-    console.log(bodySanitized);
     if(!bodySanitized.success){
         return res.status(HttpStatusCodeEnum.BadRequest).json(HttpStatusMessages[HttpStatusCodeEnum.BadRequest]);
     }

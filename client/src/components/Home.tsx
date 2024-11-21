@@ -34,8 +34,6 @@ export default function Home() {
                 })
     
                 setQuestionaires(allQuestionaires.data);
-                console.log("questionaires",questionaires);
-                console.log("questionaires",questionaires);
                 setLoading(false);
             }catch(e){
                 console.error(e);

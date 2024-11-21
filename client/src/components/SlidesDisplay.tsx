@@ -59,7 +59,6 @@ export default function SlidesDisplay() {
                 }
             }).then((allSlides) => {
 
-                console.log(allSlides.data);
                 setSlidesState(allSlides.data);
                 setTotalSlides(allSlides.data.length);
                 setLoading(false);
@@ -109,8 +108,7 @@ export default function SlidesDisplay() {
                         setCurrentAsk(slidesState&&slidesState[currentSlide].ask || "");
                         setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
                         setDisplayAns(false);
-                        console.log("currentSlide",currentSlide);
-                        console.log("totalSlides",totalSlides);
+
                     }
                 }} className={`flex flex-col justify-center items-center ml-12 ${rightArrowStyle}`}>
                     <img src={doubleRightArrow}  className="w-8 h-8 cursor-pointer"/>
