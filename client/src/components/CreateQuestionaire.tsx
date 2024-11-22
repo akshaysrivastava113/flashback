@@ -12,6 +12,7 @@ import { BeatLoader } from 'react-spinners';
 const signedIntoken: string = Cookies.get("fl-token");
 
 export default function CreateQuestionaire(props: any){
+    console.log(signedIntoken);
     const backend_url = process.env.REACT_APP_BACKEND_URL;
     const MIN_LIMIT = 1;
     const MAX_LIMIT = 10;

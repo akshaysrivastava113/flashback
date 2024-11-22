@@ -21,9 +21,21 @@ router.get('/dets', verifyToken, async (req: Request, res: Response) => {
     res.status(HttpStatusCodeEnum.OK).json(alluserDets);
 });
 
-router.get('/profile', (req: Request, res: Response) => {
+router.get('/profile', verifyToken, async (req: Request, res: Response) => {
+    const userId = (req as any).userId.id;
+    const allQuestionairesOfUser = await prisma.questionaire.findMany({
+        select: {
+            id: true,
+            title: true,
+            authorId: true
+          },
+        where: {
+            authorId: userId
+        }
+    });
 
-    res.send("Profile");
+    res.status(HttpStatusCodeEnum.OK).json(allQuestionairesOfUser);
+
 });
 
 export default router;

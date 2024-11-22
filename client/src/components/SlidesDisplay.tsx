@@ -97,9 +97,9 @@ export default function SlidesDisplay() {
                     <img src={doubleLeftArrow}  className="w-8 h-8 cursor-pointer"/>
                 </div>
 
-                <div className="flex flex-col justify-center items-center border-2 rounded-md w-1/3 h-96 mb-4">
-                    <p>{currentAsk}</p>
-                    {displayAns&&<p>{currentAns}</p>} 
+                <div id="qna-conrainer" className="flex flex-col justify-center items-center border-2 rounded-md w-1/3 h-96 mb-4">
+                    <p className="m-2 p-2 font-bold">{currentAsk}</p>
+                    {displayAns&&<p className="m-2 p-2 border-t-2 ">{currentAns}</p>} 
                 </div>
 
                 <div onClick={() => {

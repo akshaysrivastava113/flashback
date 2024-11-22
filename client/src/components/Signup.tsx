@@ -3,6 +3,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
+import ErrorOccurred from "./ErrorOccurred";
 
 const backend_url = process.env.REACT_APP_BACKEND_URL;
 const expiryTime = 30/1440;
@@ -11,6 +12,7 @@ export default function Signup(){
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
     const [loading, setLoading] = useState(false);
+    const [errorOccurred, setErrorOccurred] = useState(false);
     const navigate = useNavigate();
 
     function sendSignupReq() {
@@ -25,6 +27,10 @@ export default function Signup(){
             navigate('/');
         }).catch(err => {
             console.error(err);
+            setErrorOccurred(true);
+            setTimeout(() => {
+                setErrorOccurred(true);
+            }, 5000);
         }).finally(() => {
             setLoading(false);
         })
@@ -34,6 +40,7 @@ export default function Signup(){
     return (
         <div id="signup-form-container" className="flex justify-center items-start border-2 h-screen">
             <div id="signup-form" className=" flex flex-col justify-center mt-32 m-5 p-5">
+                <ErrorOccurred errorOccurred={errorOccurred} text="Something went wrong! Please try again."/>
                 <div className="w-96 flex flex-col justify-start mb-4">
                     <label className="mr-4 ml-4 mb-2 w-32 font-semibold">Username </label>
                     <input onChange={(e) => setUsernameInput(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="johndoe123" />

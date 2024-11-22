@@ -7,6 +7,7 @@ import SlidesDisplay from './components/SlidesDisplay';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
 import CreateQuestionaire from './components/CreateQuestionaire';
+import Profile from './components/Profile';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +20,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/signin' element={<Signin/>}/>
+          <Route path='/profile' element={<Profile/>}/>
           <Route path='/create' element={<CreateQuestionaire/>}/>
           <Route path='/quest/:questIdParam' element={<SlidesDisplay/>}/>
         </Routes>
