@@ -9,6 +9,7 @@ import PublicErrorPage from "./PublicErrorPage";
 import { RotateLoader } from 'react-spinners';
 import { useRecoilState } from "recoil";
 import { profileSelected } from "../store/atoms/profileSelected";
+import { useNavigate } from "react-router-dom";
 
 interface Quest {
     id: string;
@@ -17,6 +18,7 @@ interface Quest {
 }
 
 export default function Profile(props:any){
+    const navigate = useNavigate();
     const signedIntoken: string = Cookies.get("fl-token");
     const signedInUser: boolean = Cookies.get("fl-token")?true:false;
     const backend_url = process.env.REACT_APP_BACKEND_URL;
@@ -48,7 +50,7 @@ export default function Profile(props:any){
             
     },[]);
 
-    const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a href="/signin">sign in</a> to continue.</p></>);
+    const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a className="text-blue-400 cursor-pointer" href="/signin">sign in</a> to continue.</p></>);
 
     if(loading) {
         return (
@@ -60,16 +62,15 @@ export default function Profile(props:any){
 
 
     return (
+        signedInUser?
         <div id="profile" className={`flex flex-col flex-wrap h-screen ${signedInUser?'justify-start':'justify-center'}`}>
-            signedInUser?
-            <>
             <div id="my-quests-title" className="m-2 p-2">
                 <h2 className="text-xl font-bold">My Questionaires</h2>
             </div>
         
             <div id="my-quests" className="flex justify-start flex-wrap">
 
-                {questionaires.map((questItem) => {
+                {questionaires.length>0?questionaires.map((questItem) => {
                     if(questItem.title === "Science"){
                         bgImageUrl = bgImage1;
                     } else if(questItem.title === "Maths"){
@@ -83,11 +84,10 @@ export default function Profile(props:any){
 
                         <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} />
                     )
-                })}
+                }):<h5 className="m-2 p-2">No Questionaires found. Create some <span className="text-blue-400 cursor-pointer" onClick={() => navigate('/create')}>here</span></h5>} 
 
             </div>
-                </>
-                :<PublicErrorPage text={errorText}/>
         </div>
+        :<PublicErrorPage text={errorText}/>
     )
 }

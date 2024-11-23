@@ -10,11 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
 import PublicErrorPage from "./PublicErrorPage";
 
-const signedIntoken: string = Cookies.get("fl-token");
-const signedInUser: boolean = Cookies.get("fl-token")?true:false;
+
+
 
 export default function CreateQuestionaire(props: any){
-    console.log(signedIntoken);
+    const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a className="text-blue-400 cursor-pointer" href="/signin">sign in</a> to continue.</p></>);
+    const signedIntoken: string = Cookies.get("fl-token");
+    const signedInUser: boolean = Cookies.get("fl-token")?true:false;
+
     const backend_url = process.env.REACT_APP_BACKEND_URL;
     const MIN_LIMIT = 1;
     const MAX_LIMIT = 10;
@@ -40,7 +43,7 @@ export default function CreateQuestionaire(props: any){
         signedInUser?
         <>
         <div className="flex flex-col justify-start items-center ml-10">
-            <div id="questionaire-form" className="w-1/3 flex flex-col justify-center items-center mt-20 m-5 p-5">
+            <div id="questionaire-form" className="flex flex-col justify-center items-center mt-20 m-5 p-5">
             
                 <div className="w-full flex flex-col justify-start mb-4">
                     <label className="mr-4 ml-4 mb-2 w-44 font-semibold">Questionaire Title</label>
@@ -52,7 +55,7 @@ export default function CreateQuestionaire(props: any){
             
             </div>
         
-            <div id="slides-grid-container" className={`w-2/3 flex flex-wrap justify-center mt-18 m-5 p-5 rounded-xl ${slidesDataBlank?'bg-red-100':'bg-white'}`}>
+            <div id="slides-grid-container" className={`flex flex-wrap justify-center mt-18 m-5 p-5 rounded-xl ${slidesDataBlank?'bg-red-100':'bg-white'}`}>
                 {slidesData.map((slide: any) => {
                     return (
                         <div id="slide-container" className="w-44 h-50 flex flex-col m-2 p-2 border-2 transition duration-100 ease-in-out transform hover:scale-110">
@@ -84,7 +87,7 @@ export default function CreateQuestionaire(props: any){
                 })}
 
                 <div id="adder-container" className="flex w-96 m-5 h-full justify-evenly border-1 rounded-lg">
-                    <div id="adder-inputs" className="w-3/4 flex flex-col justify-center items-center">
+                    <div id="adder-inputs" className="flex flex-col justify-center items-center">
                         {/* <label className="font-semibold">Slide {id}</label> */}
                         <input onChange={(e) => {
                             setAsk(e.target.value)
@@ -127,7 +130,7 @@ export default function CreateQuestionaire(props: any){
             </div>
             <div className="w-full flex justify-center mt-20">
                 <div className="w-2/3 flex justify-center">
-                    <button className={`w-64 border-2  p-1 bg-red-400 text-white font-semibold ${loading?'opacity-20':'opacity-100'}`} onClick={() => {
+                    <button className={`w-24 md:w-32 border-2 border-white m-2 p-1 bg-red-400 text-white font-semibold rounded-xl hover:opacity-90 ${loading?'opacity-20':'opacity-100'}`} onClick={() => {
 
                         if(qTitle === "") setQTitleBlank(true);
                         if (slidesData.length === 0) setSlidesDataBlank(true);
@@ -162,6 +165,6 @@ export default function CreateQuestionaire(props: any){
         </div>
        
         </>
-        :<PublicErrorPage/>
+        :<PublicErrorPage text={errorText}/>
     )
 }

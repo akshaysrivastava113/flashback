@@ -1,5 +1,5 @@
 interface errorProps {
-    errorOccurred: string,
+    errorOccurred: boolean,
     text: string
 }
 

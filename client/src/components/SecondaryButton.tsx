@@ -10,6 +10,6 @@ export default function SecondaryButton(props: any){
             } else if(props.execFunc) {
                 props.execFunc();
             }
-        }} className="w-32 border-2 border-white m-2 p-1 bg-white text-red-400  font-semibold rounded-xl">{props.text}</button>
+        }} className="w-24 md:w-32 border-2 border-white m-2 p-1 bg-white text-red-400 font-semibold rounded-xl hover:opacity-90 ">{props.text}</button>
     )
 }

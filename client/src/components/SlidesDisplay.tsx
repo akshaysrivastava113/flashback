@@ -13,8 +13,16 @@ interface Params {
   }
 
   const backend_url = process.env.REACT_APP_BACKEND_URL;
+    
+  interface Slides {
+    id: string;
+    ask: string;
+    answer: string;
+}
 
   let currentSlide = 0;
+  
+  const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a className="text-blue-400 cursor-pointer" href="/signin">sign in</a> to continue.</p></>);
   
 export default function SlidesDisplay() {
 
@@ -29,6 +37,34 @@ export default function SlidesDisplay() {
     const [leftArrowStyle, setLeftArrowStyle] = useState("opacity-100");
     const [rightArrowStyle, setRightArrowStyle] = useState("opacity-100");
 
+    const [slidesState, setSlidesState] = useState<Slides[]>();
+    const [displayAns, setDisplayAns] = useState(false);
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    useEffect(() => {
+        console.log("ran signedIntoken",signedIntoken );
+        currentSlide = 0;
+        axios.get<Slides[]>(`${backend_url}/quest/${questIdParam}`, {
+            headers: {
+                 "Authorization":`Bearer ${signedIntoken}`
+            }
+        }).then((allSlides) => {
+            console.log(allSlides);
+            setSlidesState(allSlides.data);
+            setTotalSlides(allSlides.data.length);
+            setLoading(false);
+            setCurrentAsk(allSlides.data[currentSlide].ask);
+            setCurrentAns(allSlides.data[currentSlide].answer);
+        }).catch((err) => {
+            console.log(err);
+            setLoading(false);
+        }).finally(() => {
+            console.log("ran");
+            setLoading(false);
+        })
+
+    },[])
+
     useEffect(() => {
         if(currentSlide>0){
             setLeftArrowStyle("opacity-100");
@@ -42,42 +78,13 @@ export default function SlidesDisplay() {
         }
     }, [currentSlide]);
 
-    interface Slides {
-        id: string;
-        ask: string;
-        answer: string;
-    }
-
-    const [slidesState, setSlidesState] = useState<Slides[]>();
-    const [displayAns, setDisplayAns] = useState(false);
-    const [isFlipped, setIsFlipped] = useState(false);
-
     const handleFlip = () => {
-      setIsFlipped(!isFlipped);
-    };
-    const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a href="/signin">sign in</a> to continue.</p></>);
+        setIsFlipped(!isFlipped);
+      };
     
-        useEffect(() => {
-            currentSlide = 0;
-            axios.get<Slides[]>(`${backend_url}/quest/${questIdParam}`, {
-                headers: {
-                     "Authorization":`Bearer ${signedIntoken}`
-                }
-            }).then((allSlides) => {
-
-                setSlidesState(allSlides.data);
-                setTotalSlides(allSlides.data.length);
-                setLoading(false);
-                setCurrentAsk(allSlides.data[currentSlide].ask);
-                setCurrentAns(allSlides.data[currentSlide].answer);
-            }).catch((err) => {
-
-                setLoading(false);
-            })
-
-        },[])
 
     if(loading) {
+        console.log(loading);
         return (
             <div className="h-screen flex justify-center items-center">
                 <RotateLoader color="#F87171" loading={loading} />
@@ -86,10 +93,8 @@ export default function SlidesDisplay() {
     }
 
     return (
-        
-        <div id="home" className="flex flex-col justify-center items-center mt-44">
-            {signedInUser?
-            <>
+        signedInUser?
+        <div id="slides-display" className="flex flex-col justify-center items-center  ">
             <div className="flex justify-center items-center w-full">
 
                 <div onClick={() => {
@@ -125,9 +130,7 @@ export default function SlidesDisplay() {
                     <img src={doubleRightArrow}  className="w-8 h-8 cursor-pointer"/>
                 </div>
             </div>
-            
-            </>
-          :<PublicErrorPage text={errorText} />}
         </div>
+        :<PublicErrorPage text={errorText} />
     )
 }

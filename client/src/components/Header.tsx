@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
+import ProfileIcon from "./ProfileIcon";
 import Cookies from "js-cookie";
 import logoMain from "../../public/logo.svg";
 import signout from "../../public/singout.svg";
@@ -41,64 +42,53 @@ export default function Header() {
 
     return (
         <>
-        <div id="header" className="w-full bg-red-400 flex justify-between items-center h-16">
+        <div id="header" className="w-full bg-red-400 flex justify-between items-center h-12 md:h-16 lg:h-18">
 
 
-            <div id="header-left" className="m-2 ml-16 w-10">
+            <div id="header-left" className="m-2 ml-14 md:ml-16 w-6 lg:w-10">
                 <a onClick={() => navigate('/')} className=" cursor-pointer flex justify-center items-center"><img src="../../public/logo.svg" alt="home"/>
                 <p className="ml-2 font-mono">flashback</p></a>
             </div>
             
 
-            <div id="header-right" className="flex justify-center items-center mr-10">
+            <div id="header-right" className="flex justify-center items-center mr-2 md:mr-6 lg:mr-10 ">
                 {!signedInUser?
                 <>
-                <SecondaryButton text="Register" navigateTo="/signup"/>
+                <SecondaryButton text="Sign Up" navigateTo="/signup"/>
                 <PrimaryButton text="Sign In" navigateTo="/signin"/>
                 </>
                 :
                 <>
                 <SecondaryButton text="Create" navigateTo="/create"/>
-                <div onClick={() => {
-                        if(!profileSelectedd){
-                            setProfileSelectedd(true);
-                        } else {
-                            setProfileSelectedd(false);
-                        }
-                    }} className="ml-4 cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                    </svg>
-                </div>
-                
+                <ProfileIcon profileSelectedd={profileSelectedd} setProfileSelectedd={setProfileSelectedd}/>
                 </>
                 }
                 
             </div>
 
         </div>
-        {profileSelectedd&&
-            <div id="backlayer" className="w-full h-full absolute flex justify-end" onClick={() => setProfileSelectedd(false)}>
-                <div id="profile-window" className=" border-2 bg-white w-fit h-fit rounded-md flex flex-col justify-start items-start m-2 p-1">
-                    <div>
-                        <p className=" font-bold py-0 px-1 text-lg">{username}</p>
-                        <p className="py-0 px-1 text-md">{userEmail}</p>
-                        <p className="p-1 text-md text-gray-500">{badges}</p>
-                    </div>
-                    <div onClick={() => navigate('/profile')} className="w-full cursor-pointer hover:bg-gray-200">
-                    <p  className="p-1 text-md">Profile</p>
-                    </div>
-                    <div className="cursor-pointer w-full" onClick={() => {
-                                Cookies.remove('fl-token');
-                                navigate('/');
-                                window.location.reload();
-                            }}>
-                        {/* <img  src={signout} className="ml-4 w-8 h-8 cursor-pointer"/> */}
-                        <p className="flex justify-center items-center p-1 hover:bg-gray-200 rounded-lg">Sign Out <img src={signout} className="m-2 w-8 h-8 cursor-pointer"/></p>
+            {profileSelectedd&&
+                <div id="backlayer" className="w-full h-full absolute flex justify-end" onClick={() => setProfileSelectedd(false)}>
+                    <div id="profile-window" className=" border-2 bg-white w-fit h-fit rounded-md flex flex-col justify-start items-start m-2 p-1 z-50">
+                        <div>
+                            <p className=" font-bold py-0 px-1 text-lg">{username}</p>
+                            <p className="py-0 px-1 text-md">{userEmail}</p>
+                            <p className="p-1 text-md text-gray-500">{badges}</p>
+                        </div>
+                        <div onClick={() => navigate('/profile')} className="w-full cursor-pointer hover:bg-gray-200">
+                        <p  className="p-1 text-md">Profile</p>
+                        </div>
+                        <div className="cursor-pointer w-full" onClick={() => {
+                                    Cookies.remove('fl-token');
+                                    navigate('/');
+                                    window.location.reload();
+                                }}>
+                            {/* <img  src={signout} className="ml-4 w-8 h-8 cursor-pointer"/> */}
+                            <p className="flex justify-center items-center p-1 hover:bg-gray-200 rounded-lg">Sign Out <img src={signout} className="m-2 w-8 h-8 cursor-pointer"/></p>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
-            </>
+        </>
     )
 }
