@@ -58,7 +58,7 @@ export default function Header() {
                 </>
                 :
                 <>
-                <PrimaryButton text="Create" navigateTo="/create"/>
+                <SecondaryButton text="Create" navigateTo="/create"/>
                 <div onClick={() => {
                         if(!profileSelectedd){
                             setProfileSelectedd(true);

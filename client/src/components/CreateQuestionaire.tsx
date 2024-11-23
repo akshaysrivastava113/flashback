@@ -8,8 +8,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
+import PublicErrorPage from "./PublicErrorPage";
 
 const signedIntoken: string = Cookies.get("fl-token");
+const signedInUser: boolean = Cookies.get("fl-token")?true:false;
 
 export default function CreateQuestionaire(props: any){
     console.log(signedIntoken);
@@ -35,6 +37,7 @@ export default function CreateQuestionaire(props: any){
     const [loading, setLoading] = useState(false);
 
     return (
+        signedInUser?
         <>
         <div className="flex flex-col justify-start items-center ml-10">
             <div id="questionaire-form" className="w-1/3 flex flex-col justify-center items-center mt-20 m-5 p-5">
@@ -46,27 +49,6 @@ export default function CreateQuestionaire(props: any){
                         setQTitleBlank(false);
                     }} className={`m-2 p-2 border-2 rounded-md ${qTitleBlank?'bg-red-100':'bg-white'}`} placeholder={`${qTitleBlank?'title cannot be blank':'title'}`} />
                 </div>
-            
-            
-            {/* <div className="w-full flex flex-col justify-start mb-4 mt-6">
-                <label className="mr-4 ml-4 mb-2 w-44 font-semibold">Slide {id}</label>
-                <input onChange={(e) => setAsk(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="question" />
-                <textarea rows={4} onChange={(e) => setAnswer(e.target.value)} className="m-2 p-2 border-2 rounded-md" placeholder="answer" />
-                <div className="flex justify-center mt-4">
-                    <button onClick={() => {
-                        setId(prevId => prevId+1);
-                        const newItem = {
-                            id : id,
-                            ask: ask,
-                            answer: answer
-                        };
-                        setSlidesData((prevState: any) => [...prevState, newItem]);
-                    }} className="px-6 py-2 bg-gradient-to-r from-indigo-300 to-purple-300 text-white font-bold rounded-lg shadow-lg relative overflow-hidden group transition-transform transform hover:scale-105">
-                    <span className="absolute top-0 left-0 w-full h-0 bg-white opacity-20 transition-all duration-300 group-hover:h-full"></span>
-                    <span className="flex justify-center items-center">Add <img src={plusSign} className="ml-4 w-8 h-8 cursor-pointer text-white "/></span>
-                    </button> 
-                </div>
-            </div> */}
             
             </div>
         
@@ -180,5 +162,6 @@ export default function CreateQuestionaire(props: any){
         </div>
        
         </>
+        :<PublicErrorPage/>
     )
 }

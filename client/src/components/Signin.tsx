@@ -18,9 +18,6 @@ export default function Signin(){
     
     const navigate = useNavigate();
 
-    useEffect(() => {
-        window.location.reload();
-    },[]);
     function sendSignupReq() {
         setLoading(true);
         axios.post(`${backend_url}/auth/signin`, {

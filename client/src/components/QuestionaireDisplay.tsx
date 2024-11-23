@@ -3,10 +3,22 @@ export default function QuestionaireDisplay(props: any) {
     const navigate = useNavigate();
 
     return (
-        <div onClick={() => navigate('/quest/'+props.id)} style={{ backgroundImage: `url(${props.bgImage})` }} className="border-2 bg-cover bg-center w-64 h-64 rounded-lg m-2 p-2 cursor-pointer hover:bg-opacity-30">
-            <div className="bg-black bg-opacity-50 hover:bg-gray-900 transition-all duration-300 p-10">
-                <p className="m-2 p-2">{props.title}</p>
+        <div
+        onClick={() => navigate(`/quest/${props.id}`)}
+        className="relative w-64 h-64 rounded-lg m-2 cursor-pointer overflow-hidden group shadow-lg hover:shadow-2xl transition-shadow duration-300"
+        style={{ backgroundImage: `url(${props.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        >
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-bg duration-300">
+            {/* Text */}
+            <div className="absolute bottom-4 left-0 w-full text-center">
+            <p className="text-white text-lg font-semibold px-4 mb-4">
+                {props.title}
+            </p>
             </div>
         </div>
+        </div>
+
+
     )
 }

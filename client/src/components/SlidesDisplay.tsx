@@ -95,9 +95,11 @@ export default function SlidesDisplay() {
                 <div onClick={() => {
                     if(currentSlide>0){
                         setIsFlipped(false);
-                        currentSlide -= 1;
-                        setCurrentAsk(slidesState&&slidesState[currentSlide].ask || "");
-                        setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
+                        setTimeout(() => {
+                            currentSlide -= 1;
+                            setCurrentAsk(slidesState&&slidesState[currentSlide].ask || "");
+                            setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
+                        }, 200);
                     }
                 }}  className={`flex flex-col justify-center items-center mr-12 ${leftArrowStyle}`}>
                     <img src={doubleLeftArrow}  className="w-8 h-8 cursor-pointer"/>
@@ -112,9 +114,11 @@ export default function SlidesDisplay() {
                 <div onClick={() => {
                     if(currentSlide < totalSlides-1){
                         setIsFlipped(false);
-                        currentSlide += 1;
-                        setCurrentAsk(slidesState&&slidesState[currentSlide].ask || "");
-                        setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
+                        setTimeout(() => {
+                            currentSlide += 1;
+                            setCurrentAsk(slidesState&&slidesState[currentSlide].ask || "");
+                            setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
+                        }, 200);
 
                     }
                 }} className={`flex flex-col justify-center items-center ml-12 ${rightArrowStyle}`}>

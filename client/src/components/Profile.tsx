@@ -61,12 +61,15 @@ export default function Profile(props:any){
 
     return (
         <div id="profile" className={`flex flex-col flex-wrap h-screen ${signedInUser?'justify-start':'justify-center'}`}>
+            signedInUser?
+            <>
             <div id="my-quests-title" className="m-2 p-2">
                 <h2 className="text-xl font-bold">My Questionaires</h2>
             </div>
+        
             <div id="my-quests" className="flex justify-start flex-wrap">
 
-                {signedInUser?questionaires.map((questItem) => {
+                {questionaires.map((questItem) => {
                     if(questItem.title === "Science"){
                         bgImageUrl = bgImage1;
                     } else if(questItem.title === "Maths"){
@@ -80,8 +83,11 @@ export default function Profile(props:any){
 
                         <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} />
                     )
-                }):<PublicErrorPage text={errorText}/>}
-          </div>
+                })}
+
+            </div>
+                </>
+                :<PublicErrorPage text={errorText}/>
         </div>
     )
 }
