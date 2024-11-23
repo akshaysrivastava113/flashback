@@ -63,7 +63,7 @@ export default function Home() {
 
     return (
         <div id="home" className={`flex flex-wrap h-screen ${signedInUser?'justify-start':'justify-center'}`}>
-            <div className="flex justify-center flex-wrap">
+            <div className="flex justify-start flex-wrap w-full">
                 
                 {signedInUser?questionaires.map((questItem) => {
                     if(questItem.title === "Science"){

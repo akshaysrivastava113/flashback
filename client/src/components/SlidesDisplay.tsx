@@ -6,6 +6,7 @@ import { RotateLoader } from 'react-spinners';
 import doubleLeftArrow from '../../public/doubleLeftArrow.svg';
 import doubleRightArrow from '../../public/doubleRightArrow.svg';
 import PublicErrorPage from "./PublicErrorPage";
+import FlipCard from "./FlipCard";
 
 interface Params {
     questIdParam: string; // Define the expected parameters
@@ -49,6 +50,11 @@ export default function SlidesDisplay() {
 
     const [slidesState, setSlidesState] = useState<Slides[]>();
     const [displayAns, setDisplayAns] = useState(false);
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    const handleFlip = () => {
+      setIsFlipped(!isFlipped);
+    };
     const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a href="/signin">sign in</a> to continue.</p></>);
     
         useEffect(() => {
@@ -88,40 +94,34 @@ export default function SlidesDisplay() {
 
                 <div onClick={() => {
                     if(currentSlide>0){
+                        setIsFlipped(false);
                         currentSlide -= 1;
                         setCurrentAsk(slidesState&&slidesState[currentSlide].ask || "");
                         setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
-                        setDisplayAns(false);
                     }
                 }}  className={`flex flex-col justify-center items-center mr-12 ${leftArrowStyle}`}>
                     <img src={doubleLeftArrow}  className="w-8 h-8 cursor-pointer"/>
                 </div>
 
-                <div id="qna-conrainer" className="flex flex-col justify-center items-center border-2 rounded-md w-1/3 h-96 mb-4">
+                <FlipCard isFlipped={isFlipped} handleFlip={handleFlip} ask={currentAsk} answer={currentAns}/> 
+                {/* <div id="qna-conrainer" className="flex flex-col justify-center items-center border-2 rounded-md w-1/3 h-96 mb-4">
                     <p className="m-2 p-2 font-bold">{currentAsk}</p>
                     {displayAns&&<p className="m-2 p-2 border-t-2 ">{currentAns}</p>} 
-                </div>
+                </div> */}
 
                 <div onClick={() => {
                     if(currentSlide < totalSlides-1){
+                        setIsFlipped(false);
                         currentSlide += 1;
                         setCurrentAsk(slidesState&&slidesState[currentSlide].ask || "");
                         setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
-                        setDisplayAns(false);
 
                     }
                 }} className={`flex flex-col justify-center items-center ml-12 ${rightArrowStyle}`}>
                     <img src={doubleRightArrow}  className="w-8 h-8 cursor-pointer"/>
                 </div>
             </div>
-            <div className="">
-                <button onClick={() => {
-                    setDisplayAns(true);
-                }} className="px-6 py-3 bg-gradient-to-r from-indigo-300 to-purple-300 text-white font-bold rounded-lg shadow-lg relative overflow-hidden group transition-transform transform hover:scale-105">
-                <span className="absolute top-0 left-0 w-full h-0 bg-white opacity-20 transition-all duration-300 group-hover:h-full"></span>
-                <span className="relative z-10">Reveal</span>
-                </button> 
-            </div>
+            
             </>
           :<PublicErrorPage text={errorText} />}
         </div>

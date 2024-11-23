@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
@@ -18,6 +18,9 @@ export default function Signin(){
     
     const navigate = useNavigate();
 
+    useEffect(() => {
+        window.location.reload();
+    },[]);
     function sendSignupReq() {
         setLoading(true);
         axios.post(`${backend_url}/auth/signin`, {
