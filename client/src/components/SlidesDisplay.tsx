@@ -94,7 +94,7 @@ export default function SlidesDisplay() {
 
     return (
         signedInUser?
-        <div id="slides-display" className="flex flex-col justify-center items-center  ">
+        <div id="slides-display" className="flex flex-col justify-center items-center mt-16">
             <div className="flex justify-center items-center w-full">
 
                 <div onClick={() => {
@@ -106,7 +106,7 @@ export default function SlidesDisplay() {
                             setCurrentAns(slidesState&&slidesState[currentSlide].answer || "");
                         }, 200);
                     }
-                }}  className={`flex flex-col justify-center items-center mr-12 ${leftArrowStyle}`}>
+                }}  className={`flex flex-col justify-center items-center ${leftArrowStyle}`}>
                     <img src={doubleLeftArrow}  className="w-8 h-8 cursor-pointer"/>
                 </div>
 
@@ -126,7 +126,7 @@ export default function SlidesDisplay() {
                         }, 200);
 
                     }
-                }} className={`flex flex-col justify-center items-center ml-12 ${rightArrowStyle}`}>
+                }} className={`flex flex-col justify-center items-center ${rightArrowStyle}`}>
                     <img src={doubleRightArrow}  className="w-8 h-8 cursor-pointer"/>
                 </div>
             </div>

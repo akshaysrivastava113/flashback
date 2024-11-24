@@ -42,23 +42,23 @@ export default function CreateQuestionaire(props: any){
     return (
         signedInUser?
         <>
-        <div className="flex flex-col justify-start items-center ml-10">
-            <div id="questionaire-form" className="flex flex-col justify-center items-center mt-20 m-5 p-5">
+        <div className="flex flex-col justify-start items-center">
+            <div id="questionaire-form" className="w-full lg:w-1/3 flex flex-col justify-center items-center mt-16 m-6 md:m-10 p-2 md:p-5 border border-gray-100 shadow-lg rounded-md">
             
-                <div className="w-full flex flex-col justify-start mb-4">
-                    <label className="mr-4 ml-4 mb-2 w-44 font-semibold">Questionaire Title</label>
+                <div className="w-full flex flex-col justify-start m-5 p-5">
+                    <label className="font-semibold m-2 p-2">Questionaire Title</label>
                     <input onChange={(e) => {
                         setQTitle(e.target.value);
                         setQTitleBlank(false);
-                    }} className={`m-2 p-2 border-2 rounded-md ${qTitleBlank?'bg-red-100':'bg-white'}`} placeholder={`${qTitleBlank?'title cannot be blank':'title'}`} />
+                    }} className={`m-2 p-2 border border-gray-100 rounded-md ${qTitleBlank?'bg-red-100':'bg-white'}`} placeholder={`${qTitleBlank?'title cannot be blank':'title'}`} />
                 </div>
             
-            </div>
+           
         
-            <div id="slides-grid-container" className={`flex flex-wrap justify-center mt-18 m-5 p-5 rounded-xl ${slidesDataBlank?'bg-red-100':'bg-white'}`}>
+            <div id="slides-grid-container" className={`w-full flex flex-wrap justify-center mt-18 m-5 p-5 rounded-xl ${slidesDataBlank?'bg-red-100':'bg-white'}`}>
                 {slidesData.map((slide: any) => {
                     return (
-                        <div id="slide-container" className="w-44 h-50 flex flex-col m-2 p-2 border-2 transition duration-100 ease-in-out transform hover:scale-110">
+                        <div id="slide-container" className="w-40 md:w-48 lg:w-56 h-40 md:h-48 lg:h-56 flex flex-col m-4 p-2 border border-gray-100 rounded-xl shadow-lg transition duration-100 ease-in-out transform hover:scale-110">
                             <div id="slide-header" className=" flex justify-between">
                                 <p>{slide.id}</p>
                                 <button id="del-btn" onClick={() => {
@@ -86,21 +86,21 @@ export default function CreateQuestionaire(props: any){
                     )
                 })}
 
-                <div id="adder-container" className="flex w-96 m-5 h-full justify-evenly border-1 rounded-lg">
-                    <div id="adder-inputs" className="flex flex-col justify-center items-center">
+                <div id="adder-container" className="w-full flex justify-evenly shadow-md rounded-xl m-4">
+                    <div id="adder-inputs" className="w-full flex flex-col justify-center items-center">
                         {/* <label className="font-semibold">Slide {id}</label> */}
                         <input onChange={(e) => {
                             setAsk(e.target.value)
                             setAskBlank(false);
-                        }} className={`w-full border-2 h-12 p-2  ${askBlank?'bg-red-100':'bg-white'}`} placeholder={`${askBlank?'question cannot be blank':'question'}`}/>
+                        }} className={`w-full h-12 p-2 border border-gray-100 rounded-tl-xl ${askBlank?'bg-red-100':'bg-white'}`} placeholder={`${askBlank?'question cannot be blank':'question'}`}/>
 
                         <textarea rows={4} onChange={(e) => {
                             setAnswer(e.target.value);
                             setAnswerBlank(false);
-                            }} className={`w-full border-2 p-2 ${answerBlank?'bg-red-100':'bg-white'}`} placeholder={`${answerBlank?'answer cannot be blank':'answer'}`} />
+                            }} className={`w-full p-2 border border-gray-100 rounded-bl-xl ${answerBlank?'bg-red-100':'bg-white'}`} placeholder={`${answerBlank?'answer cannot be blank':'answer'}`} />
                         
                     </div>
-                    <div id="adder-btn" className="w-1/4 flex justify-center ">
+                    <div id="adder-btn" className="flex justify-center ">
                             <button onClick={() => {
 
                                 setAskBlank(false);
@@ -120,7 +120,7 @@ export default function CreateQuestionaire(props: any){
                                     setSlidesDataBlank(false);
                                 }
 
-                            }} className=" w-full bg-gradient-to-r from-indigo-300 to-purple-300 text-white font-bold shadow-lg relative overflow-hidden group transition-transform transform hover:scale-105">
+                            }} className="w-16 md:w-20 lg:w-24 bg-gradient-to-r from-red-200 to-pink-400  text-white font-bold shadow-lg relative overflow-hidden group rounded-tr-xl rounded-br-xl">
                             <span className="absolute top-0 left-0 w-full h-0 bg-white opacity-20 transition-all duration-300 group-hover:h-full"></span>
                             <span className="flex justify-center items-center"><img src={plusSign} className="w-8 h-8 cursor-pointer text-white "/></span>
                             </button> 
@@ -128,9 +128,9 @@ export default function CreateQuestionaire(props: any){
                     </div>
 
             </div>
-            <div className="w-full flex justify-center mt-20">
-                <div className="w-2/3 flex justify-center">
-                    <button className={`w-24 md:w-32 border-2 border-white m-2 p-1 bg-red-400 text-white font-semibold rounded-xl hover:opacity-90 ${loading?'opacity-20':'opacity-100'}`} onClick={() => {
+            <div className="w-full flex justify-center mt-4 md:mt-8">
+                <div className="flex justify-center">
+                    <button className={`w-60 md:w-72 lg:w-80 min-h-12 border-2 border-gray-100 m-2 p-1 bg-red-400 text-white font-semibold rounded-xl hover:opacity-90 ${loading?'opacity-20':'opacity-100'}`} onClick={() => {
 
                         if(qTitle === "") setQTitleBlank(true);
                         if (slidesData.length === 0) setSlidesDataBlank(true);
@@ -161,6 +161,7 @@ export default function CreateQuestionaire(props: any){
 
                     }} >{loading?<BeatLoader color="#FFFFFF" size={5} />:"Publish"}</button>
                 </div>
+            </div>
             </div>
         </div>
        

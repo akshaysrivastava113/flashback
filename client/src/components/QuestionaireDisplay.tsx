@@ -5,7 +5,7 @@ export default function QuestionaireDisplay(props: any) {
     return (
         <div
         onClick={() => navigate(`/quest/${props.id}`)}
-        className="relative w-28 md:w-32 lg:w-64 h-28 md:h-32 lg:h-64 rounded-lg m-2 cursor-pointer overflow-hidden group shadow-lg hover:shadow-2xl transition-shadow duration-300"
+        className="relative w-40 md:w-48 lg:w-64 h-40 md:h-48 lg:h-64 rounded-lg m-2 cursor-pointer overflow-hidden group shadow-lg hover:shadow-2xl transition-shadow duration-300"
         style={{ backgroundImage: `url(${props.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
         {/* Overlay */}
