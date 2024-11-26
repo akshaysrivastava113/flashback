@@ -10,6 +10,6 @@ export default function PrimaryButton(props: any){
             } else if(props.execFunc) {
                 props.execFunc();
             }
-        }} className=" w-24 md:w-32 border-2 border-white m-2 p-1 bg-red-400 text-white font-semibold rounded-xl hover:opacity-90 ">{props.text}</button>
+        }} className={`${props.customTailwind} w-24 md:w-32 border border-primaryBlue m-2 p-2 bg-primaryBlue text-white font-semibold rounded-xl shadow-lg hover:opacity-80`}>{props.text}</button>
     )
 }

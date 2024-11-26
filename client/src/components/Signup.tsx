@@ -4,10 +4,13 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import ErrorOccurred from "./ErrorOccurred";
+import SecondaryButton from "./SecondaryButton";
+import PublicErrorPage from "./PublicErrorPage";
 
 const backend_url = process.env.REACT_APP_BACKEND_URL;
 const expiryTime = 30/1440;
 export default function Signup(){
+    const signedIntoken: string = Cookies.get("fl-token");
     const [usernameInput, setUsernameInput] = useState("");
     const [isUsernameInputBlank, setIsUsernameInputBlank] = useState(false);
     const [emailInput, setEmailInput] = useState("");
@@ -56,33 +59,41 @@ export default function Signup(){
     }
 
     return (
-        <div id="signup-form-container" className="flex flex-col justify-center items-center mt-16 md:mt-24">
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-900">Create a <span className="bg-gradient-to-br from-red-400 via-pink-400 to-zinc-600 bg-clip-text text-transparent">free account</span></h1>
-            <div id="signup-form" className=" flex flex-col justify-center items-center m-2 md:m-5 p-2 md:p-5 shadow-lg border border-gray-100 rounded-md">
-                <ErrorOccurred errorOccurred={errorOccurred} text={errorText}/>
-                <div className="w-60 md:w-80 lg:w-96 flex flex-col justify-start mb-4">
-                    <label className="mr-4 ml-4 mb-2 w-32 font-semibold">Username </label>
-                    <input onChange={(e) => {
-                        setUsernameInput(e.target.value);
-                        setIsUsernameInputBlank(false);
-                    }} className={`m-2 p-2 border-2 rounded-md ${isUsernameInputBlank?'bg-red-200':'bg-white'}`} placeholder="johndoe123" />
+        !signedIntoken?
+        <div className="flex flex-wrap p-2">
+             <div className="w-full md:w-1/2 bg-gradient-to-r from-blue-300 to-blue-500 rounded-lg shadow-lg flex items-center justify-center text-white font-bold text-xl ">
+                <img src="../../public/flash-logo-48.png" alt="home"/>
+            </div>
+            <div id="signup-form-container" className="w-full md:w-1/2 flex flex-col justify-center items-center mt-16 md:mt-24">
+                <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-900">Create a <span className="bg-gradient-to-br from-red-400 via-pink-400 to-zinc-600 bg-clip-text text-transparent">free account</span></h1>
+                <div id="signup-form" className=" flex flex-col justify-center items-center m-2 md:m-5 p-2 md:p-5 shadow-lg border border-gray-100 rounded-md">
+                    <ErrorOccurred errorOccurred={errorOccurred} text={errorText}/>
+                    <div className="w-60 md:w-80 lg:w-96 flex flex-col justify-start mb-4">
+                        <label className="mr-4 ml-4 mb-2 w-32 font-semibold">Username </label>
+                        <input onChange={(e) => {
+                            setUsernameInput(e.target.value);
+                            setIsUsernameInputBlank(false);
+                        }} className={`m-2 p-2 border-2 rounded-md ${isUsernameInputBlank?'bg-red-200':'bg-white'}`} placeholder="johndoe123" />
+                    </div>
+                    <div className="w-60 md:w-80 lg:w-96 flex flex-col justify-start mb-4">
+                        <label className="mr-4 ml-4 mb-2 w-32 font-semibold">Email </label>
+                        <input type="email" onChange={(e) => {
+                            setEmailInput(e.target.value);
+                            setIsEmailInputBlank(false);
+                        }} className={`m-2 p-2 border-2 rounded-md ${isEmailInputBlank?'bg-red-200':'bg-white'}`} placeholder="john.doe@flashback.com" />
+                    </div>
+                    <div className="w-60 md:w-80 lg:w-96 flex flex-col justify-start mb-4">
+                        <label className="mr-4 ml-4 mb-2 w-32 font-semibold">Password </label>
+                        <input type="password" onChange={(e) => {
+                            setPasswordInput(e.target.value);
+                            setIsPasswordInputBlank(false);
+                        }} className={`m-2 p-2 border-2 rounded-md ${isPasswordInputBlank?'bg-red-200':'bg-white'}`} placeholder="********" />
+                    </div>
+                    <SecondaryButton customTailwind="w-60 md:w-80 lg:w-96" execFunc={sendSignupReq} text={loading?<BeatLoader color="#485AFF" size={5} />:'Sign up'} />
                 </div>
-                <div className="w-60 md:w-80 lg:w-96 flex flex-col justify-start mb-4">
-                    <label className="mr-4 ml-4 mb-2 w-32 font-semibold">Email </label>
-                    <input type="email" onChange={(e) => {
-                        setEmailInput(e.target.value);
-                        setIsEmailInputBlank(false);
-                    }} className={`m-2 p-2 border-2 rounded-md ${isEmailInputBlank?'bg-red-200':'bg-white'}`} placeholder="john.doe@flashback.com" />
-                </div>
-                <div className="w-60 md:w-80 lg:w-96 flex flex-col justify-start mb-4">
-                    <label className="mr-4 ml-4 mb-2 w-32 font-semibold">Password </label>
-                    <input type="password" onChange={(e) => {
-                        setPasswordInput(e.target.value);
-                        setIsPasswordInputBlank(false);
-                    }} className={`m-2 p-2 border-2 rounded-md ${isPasswordInputBlank?'bg-red-200':'bg-white'}`} placeholder="********" />
-                </div>
-                <button onClick={() => sendSignupReq()} className={`w-60 md:w-80 lg:w-96 min-h-12 border-2 border-red-400 m-2 p-1 bg-white text-red-400 font-semibold rounded-xl hover:opacity-90 ${loading?'opacity-20 hover:opacity-20 ':'opacity-100 hover:opacity-90'}`}>{loading?<BeatLoader color="red" size={5} />:'Sign up'}</button>
             </div>
         </div>
+        :
+        <PublicErrorPage text="Already signed in"/>
     )
 }

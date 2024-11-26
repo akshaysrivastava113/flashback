@@ -42,11 +42,12 @@ export default function Header() {
 
     return (
         <>
-        <div id="header" className="w-full bg-red-400 flex justify-between items-center h-12 md:h-16 lg:h-18">
-
+        <div id="header" className="w-full bg-white border-b flex justify-between items-center h-12 md:h-16 lg:h-20">
+            
 
             <div id="header-left" className="m-2 ml-14 md:ml-16 w-6 lg:w-10">
-                <a onClick={() => navigate('/')} className=" cursor-pointer flex justify-center items-center"><img src="../../public/logo.svg" alt="home"/>
+                <a onClick={() => navigate('/')} className=" cursor-pointer flex justify-center items-center">
+                    <img src="../../public/flash-logo-48.png" alt="home"/>
                 <span className="bg-gradient-to-br from-black via-black-400 to-zinc-600 bg-clip-text text-transparent font-bold ml-2 text-lg">flashback</span></a>
             </div>
             

@@ -87,7 +87,7 @@ export default function SlidesDisplay() {
         console.log(loading);
         return (
             <div className="h-screen flex justify-center items-center">
-                <RotateLoader color="#F87171" loading={loading} />
+                <RotateLoader color="#485AFF" loading={loading} />
             </div>
         )
     }

@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
 import PublicErrorPage from "./PublicErrorPage";
+import PrimaryButton from "./PrimaryButton";
 
 
 
@@ -39,6 +40,36 @@ export default function CreateQuestionaire(props: any){
     const [id, setId] = useState(1);
     const [loading, setLoading] = useState(false);
 
+    const publishQuest = ()=> {
+
+        if(qTitle === "") setQTitleBlank(true);
+        if (slidesData.length === 0) setSlidesDataBlank(true);
+
+        if(qTitle !== "" && slidesData.length !== 0){
+            setLoading(true);
+            const finalObj = {
+                questTitle: qTitle,
+                slidesData: slidesData
+            };
+            
+            axios.post(`${backend_url}`+`/api/v1/create`, finalObj, {
+                headers: {
+                    "Authorization":`Bearer ${signedIntoken}`
+                }
+            })
+            .then((res) => {
+                console.log(res);
+                navigate('/');
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+        }
+
+    }
     return (
         signedInUser?
         <>
@@ -120,7 +151,7 @@ export default function CreateQuestionaire(props: any){
                                     setSlidesDataBlank(false);
                                 }
 
-                            }} className="w-16 md:w-20 lg:w-24 bg-gradient-to-r from-red-200 to-pink-400  text-white font-bold shadow-lg relative overflow-hidden group rounded-tr-xl rounded-br-xl">
+                            }} className="w-16 md:w-20 lg:w-24 bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 text-white font-bold shadow-lg relative overflow-hidden group rounded-tr-xl rounded-br-xl">
                             <span className="absolute top-0 left-0 w-full h-0 bg-white opacity-20 transition-all duration-300 group-hover:h-full"></span>
                             <span className="flex justify-center items-center"><img src={plusSign} className="w-8 h-8 cursor-pointer text-white "/></span>
                             </button> 
@@ -130,36 +161,7 @@ export default function CreateQuestionaire(props: any){
             </div>
             <div className="w-full flex justify-center mt-4 md:mt-8">
                 <div className="flex justify-center">
-                    <button className={`w-60 md:w-72 lg:w-80 min-h-12 border-2 border-gray-100 m-2 p-1 bg-red-400 text-white font-semibold rounded-xl hover:opacity-90 ${loading?'opacity-20':'opacity-100'}`} onClick={() => {
-
-                        if(qTitle === "") setQTitleBlank(true);
-                        if (slidesData.length === 0) setSlidesDataBlank(true);
-
-                        if(qTitle !== "" && slidesData.length !== 0){
-                            setLoading(true);
-                            const finalObj = {
-                                questTitle: qTitle,
-                                slidesData: slidesData
-                            };
-                            
-                            axios.post(`${backend_url}`+`/api/v1/create`, finalObj, {
-                                headers: {
-                                    "Authorization":`Bearer ${signedIntoken}`
-                                }
-                            })
-                            .then((res) => {
-                                console.log(res);
-                                navigate('/');
-                            })
-                            .catch((err) => {
-                                console.error(err);
-                            })
-                            .finally(() => {
-                                setLoading(false);
-                            });
-                        }
-
-                    }} >{loading?<BeatLoader color="#FFFFFF" size={5} />:"Publish"}</button>
+                    <PrimaryButton customTailwind="w-60 md:w-80 lg:w-96" execFunc={publishQuest} text={loading?<BeatLoader color="#FFFFFF" size={5} />:'Publish'} /> 
                 </div>
             </div>
             </div>
