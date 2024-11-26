@@ -16,16 +16,15 @@ const FlipCard = (props: any) => {
           }`}
         >
           {/* Front of card */}
-          <div className="absolute w-full h-full backface-hidden bg-white rounded-xl shadow-xl p-6 flex flex-col items-center justify-center border border-gray-100 ">
-            <div className="text-xl md:text-2xl lg:text-4xl mb-4">👋</div>
-            <h2 className="text-md md:text-2xl lg:text-2xl font-bold mb-4 overflow-auto">{props.ask}</h2>
+          <div className="absolute w-full h-full backface-hidden bg-white rounded-xl shadow-xl p-6 flex flex-col items-center justify-center border border-gray-100  overflow-x-scroll">
+            <h2 className="text-md md:text-2xl lg:text-2xl font-bold mb-4">{props.ask}</h2>
             <PrimaryButton execFunc={props.handleFlip} text="Reveal" />
           </div>
 
           {/* Back of card */}
-          <div className="absolute w-full h-full backface-hidden bg-primaryBlue rounded-xl shadow-lg p-6 flex flex-col items-center justify-center rotate-y-180 border border-red-100 break-words">
-            <div className="text-xl md:text-2xl lg:text-4xl mb-4">✨</div>
-            <h2 className="text-md md:text-2xl lg:text-2xl font-bold text-white mb-4 overflow-auto">{props.isFlipped&&props.answer}</h2>
+          <div className="absolute w-full min-h-[600px] backface-hidden bg-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center rotate-y-180 border border-red-100 overflow-x-scroll">
+            {/* <h2 className="text-md md:text-2xl lg:text-2xl font-bold text-white mb-4 overflow-auto">{props.isFlipped&&props.answer}</h2> */}
+            <div dangerouslySetInnerHTML={{ __html: props.isFlipped&&props.answer }} />
             <SecondaryButton execFunc={props.handleFlip} text="Hide" />
              
           </div>

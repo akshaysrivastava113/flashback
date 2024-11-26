@@ -13,7 +13,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
+    <div className='h-full'>
       <BrowserRouter>
       <Header/>
         <Routes>
@@ -25,7 +25,7 @@ function App() {
           <Route path='/quest/:questIdParam' element={<SlidesDisplay/>}/>
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   )
 }
 

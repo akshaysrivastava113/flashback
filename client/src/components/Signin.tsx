@@ -53,7 +53,7 @@ export default function Signin(){
 
     return (
         !signedIntoken?
-        <div className="flex flex-wrap p-2">
+        <div className="flex flex-wrap p-2 h-[90%]">
             <div className="w-full md:w-1/2 bg-gradient-to-r from-blue-300 to-blue-500 rounded-lg shadow-lg flex items-center justify-center text-white font-bold text-xl ">
                 <img src="../../public/flash-logo-48.png" alt="home"/>
             </div>

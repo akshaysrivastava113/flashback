@@ -62,7 +62,7 @@ export default function Home() {
 
 
     return (
-        <div id="home" className={`flex flex-wrap ${signedInUser?'justify-start':'justify-center'}`}>
+        <div id="home" className={`flex flex-wrap h-[90%] ${signedInUser?'justify-start':'justify-center'}`}>
             <div className="flex justify-center md:justify-center lg:justify-start flex-wrap w-full">
                 
                 {signedInUser?questionaires.map((questItem) => {

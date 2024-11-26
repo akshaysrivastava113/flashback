@@ -6,11 +6,11 @@ import doubleLeftArrow from "../../public/doubleLeftArrow.svg";
 import rightLeftArrow from "../../public/doubleRightArrow.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Editor } from "@tinymce/tinymce-react";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
 import PublicErrorPage from "./PublicErrorPage";
 import PrimaryButton from "./PrimaryButton";
-
 
 
 
@@ -74,7 +74,7 @@ export default function CreateQuestionaire(props: any){
         signedInUser?
         <>
         <div className="flex flex-col justify-start items-center">
-            <div id="questionaire-form" className="w-full lg:w-1/3 flex flex-col justify-center items-center mt-16 m-6 md:m-10 p-2 md:p-5 border border-gray-100 shadow-lg rounded-md">
+            <div id="questionaire-form" className="w-full lg:w-2/3 flex flex-col justify-center items-center mt-16 m-6 md:m-10 p-2 md:p-5 border border-gray-100 shadow-lg rounded-md">
             
                 <div className="w-full flex flex-col justify-start m-5 p-5">
                     <label className="font-semibold m-2 p-2">Questionaire Title</label>
@@ -117,29 +117,60 @@ export default function CreateQuestionaire(props: any){
                     )
                 })}
 
-                <div id="adder-container" className="w-full flex justify-evenly shadow-md rounded-xl m-4">
-                    <div id="adder-inputs" className="w-full flex flex-col justify-center items-center">
-                        {/* <label className="font-semibold">Slide {id}</label> */}
+                <div id="adder-container" className="w-full flex justify-evenly m-4 p-2 border border-gray-200">
+                    <div id="adder-inputs" className="w-2/3 flex flex-col justify-center items-start h-[500px]">
+                        <label className="font-semibold m-2 mb-0 p-2">Question</label>
                         <input onChange={(e) => {
                             setAsk(e.target.value)
                             setAskBlank(false);
-                        }} className={`w-full h-12 p-2 border border-gray-100 rounded-tl-xl ${askBlank?'bg-red-100':'bg-white'}`} placeholder={`${askBlank?'question cannot be blank':'question'}`}/>
+                        }} className={`w-full h-12 m-2 p-2 border border-gray-100 ${askBlank?'bg-red-100':'bg-white'}`} placeholder='question'/>
 
-                        <textarea rows={4} onChange={(e) => {
+                        {/* <textarea rows={4} onChange={(e) => {
+                            console.log(e.target.value);
                             setAnswer(e.target.value);
                             setAnswerBlank(false);
+                            console.log(answer);
                             }} className={`w-full p-2 border border-gray-100 rounded-bl-xl ${answerBlank?'bg-red-100':'bg-white'}`} placeholder={`${answerBlank?'answer cannot be blank':'answer'}`} />
-                        
+                              */}
+                              <label className="font-semibold m-2 mb-0 pl-2 pr-2">Answer</label>
+                        <div className={`w-full h-full p-2 pt-4 pb-4 ${answerBlank?'bg-red-100':'bg-white'}`}>
+                            
+                            <Editor
+                                    apiKey="2o3sk03e8b1eju7yi39u52gfpytz5ci52ffy5bcleaujmzk2" // Replace with your TinyMCE API key (free tier available)
+                                    initialValue=""
+                                    init={{
+                                    placeholder: "answer",
+                                    height: "100%",
+                                    width: "100%",
+                                    menubar: false,
+                                    plugins: [
+                                        "advlist autolink lists link image charmap print preview anchor",
+                                        "searchreplace visualblocks code fullscreen",
+                                        "insertdatetime media table paste code help wordcount",
+                                    ],
+                                    toolbar:
+                                        "undo redo | formatselect | bold italic backcolor | \
+                                        alignleft aligncenter alignright alignjustify | \
+                                        bullist numlist outdent indent | removeformat | help",
+                                    }}
+                                    onEditorChange={(content, editor) => {
+                                        setAnswer(content);
+                                        setAnswerBlank(false);
+                                        
+                                    }}
+                                />
+                        </div>
                     </div>
-                    <div id="adder-btn" className="flex justify-center ">
+                    <div id="adder-btn" className="flex justify-end w-1/3">
                             <button onClick={() => {
 
                                 setAskBlank(false);
                                 setAnswerBlank(false);
 
                                 if(ask === "") setAskBlank(true);
-                                if(answer === "") setAnswerBlank(true);
-
+                                if(answer == "") setAnswerBlank(true);
+                                console.log(answer);
+                                console.log(answerBlank);
                                 if(ask !== "" && answer !==""){
                                     setId(prevId => prevId+1);
                                     const newItem = {
@@ -151,7 +182,7 @@ export default function CreateQuestionaire(props: any){
                                     setSlidesDataBlank(false);
                                 }
 
-                            }} className="w-16 md:w-20 lg:w-24 bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 text-white font-bold shadow-lg relative overflow-hidden group rounded-tr-xl rounded-br-xl">
+                            }} className="w-16 md:w-20 lg:w-24 bg-primaryBlue text-white font-bold shadow-lg relative overflow-hidden group">
                             <span className="absolute top-0 left-0 w-full h-0 bg-white opacity-20 transition-all duration-300 group-hover:h-full"></span>
                             <span className="flex justify-center items-center"><img src={plusSign} className="w-8 h-8 cursor-pointer text-white "/></span>
                             </button> 
