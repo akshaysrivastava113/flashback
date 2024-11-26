@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
 import PublicErrorPage from "./PublicErrorPage";
 import PrimaryButton from "./PrimaryButton";
+import SecondaryButton from "./SecondaryButton";
 
 
 
@@ -192,7 +193,7 @@ export default function CreateQuestionaire(props: any){
             </div>
             <div className="w-full flex justify-center mt-4 md:mt-8">
                 <div className="flex justify-center">
-                    <PrimaryButton customTailwind="w-60 md:w-80 lg:w-96" execFunc={publishQuest} text={loading?<BeatLoader color="#FFFFFF" size={5} />:'Publish'} /> 
+                    <SecondaryButton customTailwind="w-60 md:w-80 lg:w-96" execFunc={publishQuest} text={loading?<BeatLoader color="#FFFFFF" size={5} />:'Publish'} /> 
                 </div>
             </div>
             </div>
