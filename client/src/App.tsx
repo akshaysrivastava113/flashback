@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
 import Home from './components/Home';
@@ -10,7 +9,6 @@ import CreateQuestionaire from './components/CreateQuestionaire';
 import Profile from './components/Profile';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className='h-full'>

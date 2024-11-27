@@ -10,7 +10,7 @@ import PublicErrorPage from "./PublicErrorPage";
 const backend_url = process.env.REACT_APP_BACKEND_URL;
 const expiryTime = 30/1440;
 export default function Signup(){
-    const signedIntoken: string = Cookies.get("fl-token");
+    const signedIntoken: string | any = Cookies.get("fl-token");
     const [usernameInput, setUsernameInput] = useState("");
     const [isUsernameInputBlank, setIsUsernameInputBlank] = useState(false);
     const [emailInput, setEmailInput] = useState("");

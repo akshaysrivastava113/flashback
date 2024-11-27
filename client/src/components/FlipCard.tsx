@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import PrimaryButton from './PrimaryButton';
 import SecondaryButton from './SecondaryButton';
 
@@ -32,7 +31,7 @@ const FlipCard = (props: any) => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .perspective-1000 {
           perspective: 1000px;
         }

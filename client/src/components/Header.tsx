@@ -3,17 +3,14 @@ import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 import ProfileIcon from "./ProfileIcon";
 import Cookies from "js-cookie";
-import logoMain from "../../public/logo.svg";
 import signout from "../../public/singout.svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useRecoilState } from "recoil";
-import { profileSelected } from "../store/atoms/profileSelected";
 const backend_url = process.env.REACT_APP_BACKEND_URL;
 
 export default function Header() {
     const navigate = useNavigate();
-    const signedIntoken: string = Cookies.get("fl-token");
+    const signedIntoken: string | any = Cookies.get("fl-token");
     const signedInUser: boolean = Cookies.get("fl-token")?true:false;
     const [username, setUsername] = useState("");
     const [userEmail, setUserEmail] = useState("");

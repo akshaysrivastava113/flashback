@@ -1,8 +1,6 @@
-import { useNavigate } from "react-router-dom"
-import { Home, RefreshCcw, ArrowLeft } from 'lucide-react';
+import { RefreshCcw } from 'lucide-react';
 
 export default function PublicErrorPage(props: any){
-    const navigate = useNavigate();
     return (
         <div className="flex justify-center items-center w-full">
             <div className="w-full min-h-screen bg-gray-50 flex items-center justify-center p-4">

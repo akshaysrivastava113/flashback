@@ -8,9 +8,7 @@ import doubleRightArrow from '../../public/doubleRightArrow.svg';
 import PublicErrorPage from "./PublicErrorPage";
 import FlipCard from "./FlipCard";
 
-interface Params {
-    questIdParam: string; // Define the expected parameters
-  }
+type Params = Record<string, string | undefined>;
 
   const backend_url = process.env.REACT_APP_BACKEND_URL;
     
@@ -27,7 +25,7 @@ interface Params {
 export default function SlidesDisplay() {
 
     const { questIdParam } = useParams<Params>();
-    const signedIntoken: string = Cookies.get("fl-token");
+    const signedIntoken: string | any = Cookies.get("fl-token");
     const signedInUser: boolean = Cookies.get("fl-token")?true:false;
     const [currentAsk, setCurrentAsk] = useState("");
     const [currentAns, setCurrentAns] = useState("");
@@ -38,7 +36,6 @@ export default function SlidesDisplay() {
     const [rightArrowStyle, setRightArrowStyle] = useState("opacity-100");
 
     const [slidesState, setSlidesState] = useState<Slides[]>();
-    const [displayAns, setDisplayAns] = useState(false);
     const [isFlipped, setIsFlipped] = useState(false);
 
     useEffect(() => {

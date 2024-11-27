@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
@@ -12,7 +12,7 @@ const expiryTime = 30/1440;
 
 
 export default function Signin(){
-    const signedIntoken: string = Cookies.get("fl-token");
+    const signedIntoken: string | any = Cookies.get("fl-token");
     const [emailInput, setEmailInput] = useState("");
     const [isEmailInputBlank, setIsEmailInputBlank] = useState(false);
     const [passwordInput, setPasswordInput] = useState("");

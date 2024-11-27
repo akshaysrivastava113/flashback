@@ -1,41 +1,28 @@
 import { useState } from "react"
-import minusSign from "../../public/minus.svg";
 import plusSign from "../../public/plus.svg";
 import crossSign from "../../public/cross.svg";
-import doubleLeftArrow from "../../public/doubleLeftArrow.svg";
-import rightLeftArrow from "../../public/doubleRightArrow.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Editor } from "@tinymce/tinymce-react";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
 import PublicErrorPage from "./PublicErrorPage";
-import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 
 
-
-export default function CreateQuestionaire(props: any){
+export default function CreateQuestionaire(){
     const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a className="text-blue-400 cursor-pointer" href="/signin">sign in</a> to continue.</p></>);
-    const signedIntoken: string = Cookies.get("fl-token");
+    const signedIntoken: string | any = Cookies.get("fl-token");
     const signedInUser: boolean = Cookies.get("fl-token")?true:false;
 
     const backend_url = process.env.REACT_APP_BACKEND_URL;
-    const MIN_LIMIT = 1;
-    const MAX_LIMIT = 10;
     const navigate = useNavigate();
     const [qTitle, setQTitle] = useState("");
     const [qTitleBlank, setQTitleBlank] = useState(false);
-    const [noOfSlides, setNoOfSlides] = useState(1);
     const [ask, setAsk] = useState("");
     const [askBlank, setAskBlank] = useState(false);
     const [answer, setAnswer] = useState("");
     const [answerBlank, setAnswerBlank] = useState(false);
-    interface slidesInter {
-        id: number;
-        ask: string;
-        answer: string
-    }
     const [slidesData, setSlidesData] = useState<any>([]);
     const [slidesDataBlank, setSlidesDataBlank] = useState(false);
     const [id, setId] = useState(1);

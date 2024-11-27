@@ -7,8 +7,6 @@ import bgImage2 from '../../public/cartoony_textless_maths_trivia_youtube_thumbn
 import bgImage3 from '../../public/cartoony_textless_history_trivia_youtube_thumbnail_with.jpeg';
 import PublicErrorPage from "./PublicErrorPage";
 import { RotateLoader } from 'react-spinners';
-import { useRecoilState } from "recoil";
-import { profileSelected } from "../store/atoms/profileSelected";
 import { useNavigate } from "react-router-dom";
 
 interface Quest {
@@ -17,9 +15,9 @@ interface Quest {
     authorId: string;
 }
 
-export default function Profile(props:any){
+export default function Profile(){
     const navigate = useNavigate();
-    const signedIntoken: string = Cookies.get("fl-token");
+    const signedIntoken: string | any = Cookies.get("fl-token");
     const signedInUser: boolean = Cookies.get("fl-token")?true:false;
     const backend_url = process.env.REACT_APP_BACKEND_URL;
     const [questionaires, setQuestionaires] = useState<Quest[]>([]);
