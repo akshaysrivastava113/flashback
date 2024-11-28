@@ -17,7 +17,7 @@ app.use('/user', userRouter);
 app.use('/auth', authenticateRouter);
 app.use('/api/v1', apiV1Router);
 
-const job = cron.schedule('*/2 * * * *', () => {
+const job = cron.schedule('*/60 * * * *', () => {
     const currentDate = new Date();
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();
