@@ -55,7 +55,7 @@ export default function Signin(){
         !signedIntoken?
         <div className="flex flex-wrap p-2 h-[90%]">
             <div className="w-full md:w-1/2 bg-gradient-to-r from-blue-300 to-blue-500 rounded-lg shadow-lg flex items-center justify-center text-white font-bold text-xl ">
-                <img src="../../public/flash-logo-48.png" alt="home"/>
+                <img src="./flash-logo-48.png" alt="home"/>
             </div>
             <div id="signin-form-container" className="w-full md:w-1/2 flex flex-col justify-center items-center mt-16 md:mt-24 ">
                 <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-900">Sign in to <span className="bg-gradient-to-br from-red-400 via-pink-400 to-zinc-600 bg-clip-text text-transparent">flashback</span></h1>
