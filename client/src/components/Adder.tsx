@@ -7,12 +7,8 @@ export default function Adder(props: any) {
     const [answer, setAnswer] = useState("");
     const [answerBlank, setAnswerBlank] = useState(false);
     return (
-        <div onClick={() => {
-            props.setAdderModal(false);
-        }} className="absolute w-full h-full bg-gray-200 top-0 flex justify-center items-center z-0">
-            <div  onClick={() => {
-            props.setAdderModal(true);
-        }}  id="adder-container" className="flex flex-col m-4 p-2 border border-gray-200 bg-white z-20">
+        <div className="absolute w-full h-full bg-gray-200 top-0 flex justify-center items-center z-0">
+            <div ref={props.modalRef} id="adder-container" className="flex flex-col m-4 p-2 border border-gray-200 bg-white z-20">
                 <div id="adder-inputs" className="flex flex-col justify-center items-start h-[500px]">
                     <label className="font-semibold m-2 mb-0 p-2">Question</label>
                     <input onChange={(e) => {

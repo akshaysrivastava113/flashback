@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import crossSign from "../../public/cross.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -24,6 +24,25 @@ export default function CreateQuestionaire(){
     const [id, setId] = useState(1);
     const [loading, setLoading] = useState(false);
     const [adderModal, setAdderModal] = useState(false);
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: any) => {
+            if(adderModal && modalRef.current && !modalRef.current.contains(event.target)){
+                setAdderModal(false);
+            }
+        } 
+        if(adderModal){
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        // Cleanup event listener
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+
+    }, [adderModal]);
+
     const publishQuest = ()=> {
 
         if(qTitle === "") setQTitleBlank(true);
@@ -112,7 +131,7 @@ export default function CreateQuestionaire(){
             <button onClick={() => {
                 setAdderModal(true);
             }}>Add Slide</button>
-            {adderModal?<Adder setId={setId} setSlidesData={setSlidesData} setSlidesDataBlank={setSlidesDataBlank} id={id} setAdderModal={setAdderModal}/>:''}
+            {adderModal&&<Adder modalRef={modalRef} setId={setId} setSlidesData={setSlidesData} setSlidesDataBlank={setSlidesDataBlank} id={id} setAdderModal={setAdderModal}/>}
             </div>
         </div>
        
