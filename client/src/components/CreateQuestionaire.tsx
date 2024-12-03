@@ -63,7 +63,7 @@ export default function CreateQuestionaire(){
                 }
             })
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 navigate('/');
             })
             .catch((err) => {
