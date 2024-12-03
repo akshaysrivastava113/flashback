@@ -4,7 +4,7 @@ import SecondaryButton from "./SecondaryButton";
 import ProfileIcon from "./ProfileIcon";
 import Cookies from "js-cookie";
 import signout from "../../public/singout.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 const backend_url = process.env.REACT_APP_BACKEND_URL;
 
@@ -16,6 +16,7 @@ export default function Header() {
     const [userEmail, setUserEmail] = useState("");
     const [badges, setBadges] = useState("");
     const [profileSelectedd, setProfileSelectedd] = useState(false);
+    const profileRef = useRef(null);
 
     useEffect(() => {
         if(signedInUser){
@@ -37,6 +38,21 @@ export default function Header() {
         }
     }, [signedInUser]);
 
+    useEffect(() => {
+        const handleClickOutside = (event: any) => {
+            
+            if(profileSelectedd && profileRef.current && !profileRef.current.contains(event.target)) {
+                setProfileSelectedd(false);
+            }
+        }
+        
+        if(profileSelectedd){
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+            return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    }, [profileSelectedd])
     return (
         <>
         <div id="header" className="w-full bg-white border-b flex justify-between items-center h-12 md:h-16 lg:h-20">
@@ -66,8 +82,8 @@ export default function Header() {
 
         </div>
             {profileSelectedd&&
-                <div id="backlayer" className="w-full h-full absolute flex justify-end" onClick={() => setProfileSelectedd(false)}>
-                    <div id="profile-window" className=" border-2 bg-white w-fit h-fit rounded-md flex flex-col justify-start items-start m-2 p-1 z-50">
+               
+                    <div ref={profileRef} id="profile-window" className="absolute right-2 top-14 border-2 bg-white w-fit h-fit rounded-md flex flex-col justify-start items-start m-2 p-1 z-10">
                         <div>
                             <p className=" font-bold py-0 px-1 text-lg">{username}</p>
                             <p className="py-0 px-1 text-md">{userEmail}</p>
@@ -85,7 +101,7 @@ export default function Header() {
                             <p className="flex justify-center items-center p-1 hover:bg-gray-200 rounded-lg">Sign Out <img src={signout} className="m-2 w-8 h-8 cursor-pointer"/></p>
                         </div>
                     </div>
-                </div>
+                
             }
         </>
     )
