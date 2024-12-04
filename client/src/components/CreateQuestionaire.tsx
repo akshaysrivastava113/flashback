@@ -10,7 +10,7 @@ import { BeatLoader } from 'react-spinners';
 import PublicErrorPage from "./PublicErrorPage";
 import Adder from "./Adder";
 import PrimaryButton from "./PrimaryButton";
-
+import Alter from "./Alter";
 
 export default function CreateQuestionaire(){
     const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a className="text-blue-400 cursor-pointer" href="/signin">sign in</a> to continue.</p></>);
@@ -23,11 +23,12 @@ export default function CreateQuestionaire(){
     const [qTitleBlank, setQTitleBlank] = useState(false);
     const [slidesData, setSlidesData] = useState<any>([]);
     const [slidesDataBlank, setSlidesDataBlank] = useState(false);
-    const [pos, setPos] = useState(1);
+    const [totalSlides, setTotalSlides] = useState(1);
+    const [posToSend, setPosToSend] = useState(0);
     const [loading, setLoading] = useState(false);
     const [adderModal, setAdderModal] = useState(false);
+    const [alterModal, setAlterModal] = useState(false);
     const modalRef = useRef(null);
-
     // useEffect(() => {
     //     const handleClickOutside = (event: any) => {
     //         if(adderModal && modalRef.current && !modalRef.current.contains(event.target)){
@@ -113,29 +114,35 @@ export default function CreateQuestionaire(){
             <div id="slides-grid-container" className={`w-full flex flex-wrap justify-center mt-18 m-5 p-5 rounded-xl ${slidesDataBlank?'bg-red-100':'bg-white'}`}>
                 {slidesData.map((slide: any) => {
                     return (
+                        <>
                         <div id="slide-container" className="w-40 md:w-48 lg:w-56 h-40 md:h-48 lg:h-56 flex flex-col m-4 p-2 border border-gray-100 rounded-xl shadow-lg transition duration-100 ease-in-out transform hover:scale-110">
                             <div id="slide-header" className=" flex justify-between">
-                                <p>{slide.pos}</p>
+                                <p>{slide.position}</p>
                                 <div className="flex">
-                                    <button id="edit-btn" onClick={() => {
-                                        
+                                    <button data-pos={slide.position} id="edit-btn" onClick={(event) => {
+                                            const postToSendAttr: number = Number(event.currentTarget.getAttribute('data-pos'));
+                                            setPosToSend(postToSendAttr);
+                                            setAlterModal(true);
                                         }}>
                                         <img src={pencilSquareSign} className="w-8 h-8 p-1 transition duration-100 ease-in-out transform hover:scale-110"/>
                                     </button>
                                     <button id="del-btn" onClick={() => {
                                         setSlidesData((prevArray: any) => {
+
                                             //TODO: do it in one loop
-                                            //remove the slide
-                                            const newArray = prevArray.filter((item: any) => item.pos !== slide.pos);
-                                            //sync up the ids post delete
+
+                                            //remove the slide, return every item except slide.position, the one clicked
+                                            const newArray = prevArray.filter((item: any) => item.position !== slide.position);
+
+                                            //sync up the ids post delete, shift all positions to the right of the delete item
                                             newArray.map((item: any) => {
-                                                console.log(item.pos);
-                                                if(item.pos>slide.pos){
-                                                    item.pos = item.pos-1;
+                                                if(item.position>slide.position){
+                                                    item.position = item.position-1;
                                                 }
                                             });
-                                            setPos(prevPos => prevPos-1);
-                                            console.log(newArray);
+
+                                            setTotalSlides(prevPos => prevPos-1);
+
                                             return newArray;
                                         })
                                         }}>
@@ -147,11 +154,12 @@ export default function CreateQuestionaire(){
                                 <p className="text-xl break-words line-clamp-5">{slide.ask}</p>
                             </div>
                         </div>
+                        </>
                     )
                 })}
             </div>
-
-            {adderModal&&<Adder modalRef={modalRef} pos={pos} setPos={setPos} setSlidesData={setSlidesData} setSlidesDataBlank={setSlidesDataBlank} setAdderModal={setAdderModal}/>}
+            {adderModal&&<Adder totalSlides={totalSlides} setTotalSlides={setTotalSlides} setSlidesData={setSlidesData} setSlidesDataBlank={setSlidesDataBlank} setAdderModal={setAdderModal}/>}
+            {alterModal&&<Alter posToSend={posToSend} slidesData={slidesData} setSlidesData={setSlidesData} setSlidesDataBlank={setSlidesDataBlank} setAlterModal={setAlterModal}/>}
             </div>
         </div>
        

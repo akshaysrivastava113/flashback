@@ -1,30 +1,30 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Editor } from "@tinymce/tinymce-react";
 import crossSign from "../../public/cross.svg";
 import { BeatLoader } from "react-spinners";
-
-type propsInterface = {
-    totalSlides: number;
-    setTotalSlides: React.Dispatch<React.SetStateAction<number>>;
-    setSlidesData: React.Dispatch<React.SetStateAction<any>>;
-    setSlidesDataBlank: React.Dispatch<React.SetStateAction<boolean>>;
-    setAdderModal : React.Dispatch<React.SetStateAction<boolean>>;
-}
-export default function Adder(props: propsInterface) {
+export default function Alter(props: any) {
     const [ask, setAsk] = useState("");
     const [askBlank, setAskBlank] = useState(false);
     const [answer, setAnswer] = useState("");
     const [answerBlank, setAnswerBlank] = useState(false);
     const [loading, setLoading] = useState(true);
+    useEffect(() => {
+
+        console.log('props.posToSend', props.posToSend);
+        const item = props.slidesData.filter((slide: any) => slide.position === props.posToSend);
+        setAsk(item[0].ask);
+        setAnswer(item[0].answer);
+    }, [])
     return (
         <div className="absolute w-full h-full bg-gray-200 bg-opacity-70 top-0 flex justify-center items-center z-0">
-            <div id="adder-container" className="flex flex-col m-4 p-2 border border-gray-200 bg-white z-20 rounded-lg">
+            <div id="alter-container" className="flex flex-col m-4 p-2 border border-gray-200 bg-white z-20 rounded-lg">
+                {props.posToSend}
                 <div className="flex justify-end">
-                    <img title="Close" onClick={() => props.setAdderModal(false)} src={crossSign} className="w-8 h-8 p-1 cursor-pointer transition duration-100 ease-in-out transform hover:scale-110"/>
+                    <img title="Close" onClick={() => props.setAlterModal(false)} src={crossSign} className="w-8 h-8 p-1 cursor-pointer transition duration-100 ease-in-out transform hover:scale-110"/>
                 </div>
                 <div id="adder-inputs" className="flex flex-col justify-center items-start h-[500px]">
                     <label title="Add a question for your slide" className="font-semibold m-2 mb-0 p-2">Question</label>
-                    <input onChange={(e) => {
+                    <input value={ask} onChange={(e) => {
                         setAsk(e.target.value)
                         setAskBlank(false);
                     }} className={`w-full h-12 m-2 p-2 border rounded-lg border-gray-100 ${askBlank?'bg-red-100':'bg-white'}`} placeholder='question'/>
@@ -34,7 +34,7 @@ export default function Adder(props: propsInterface) {
                             {loading&&<div className="flex justify-center"><BeatLoader color="#485aff" size={5} /></div>}
                             <Editor
                             apiKey="2o3sk03e8b1eju7yi39u52gfpytz5ci52ffy5bcleaujmzk2"
-                            initialValue=""
+                            initialValue={answer}
                             init={{
                                 placeholder: "Write your content here...",
                                 height: 300,
@@ -68,9 +68,6 @@ export default function Adder(props: propsInterface) {
                                     }); // Trigger when TinyMCE is initialized
                                 },
                                 }}
-                                onEditorChange={(content) => {
-                                    setAnswer(content);
-                                }}
                                 />
                         </div>
                     </div>
@@ -82,8 +79,10 @@ export default function Adder(props: propsInterface) {
                             
                             if(ask === "") setAskBlank(true);
                             if(answer === "") setAnswerBlank(true);
+                            console.log(answer);
+                            console.log(answerBlank);
                             if(ask !== "" && answer !==""){
-                                props.setTotalSlides((prevPos: any) => prevPos+1);
+                                props.setPos((prevPos: any) => prevPos+1);
                                 const newItem = {
                                     position: props.totalSlides,
                                     ask: ask,
