@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import crossSign from "../../public/cross.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -7,7 +7,6 @@ import chatBubbleSign from "../../public/chatBubble.svg";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
 import PublicErrorPage from "./PublicErrorPage";
-import SecondaryButton from "./SecondaryButton";
 import Adder from "./Adder";
 import PrimaryButton from "./PrimaryButton";
 
@@ -62,8 +61,8 @@ export default function CreateQuestionaire(){
                     "Authorization":`Bearer ${signedIntoken}`
                 }
             })
-            .then((res) => {
-                // console.log(res);
+            .then((res: any) => {
+                console.log(res);
                 navigate('/');
             })
             .catch((err) => {

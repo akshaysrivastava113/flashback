@@ -16,7 +16,7 @@ export default function Header() {
     const [userEmail, setUserEmail] = useState("");
     const [badges, setBadges] = useState("");
     const [profileSelectedd, setProfileSelectedd] = useState(false);
-    const profileRef = useRef(null);
+    const profileRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if(signedInUser){

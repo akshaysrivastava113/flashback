@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface UserInputs {
     username: string;
@@ -25,7 +25,7 @@ const Test = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Handle input changes
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
@@ -68,7 +68,7 @@ const Test = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     
     // Mark form as submitted to show errors
