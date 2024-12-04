@@ -85,7 +85,7 @@ export default function Header() {
                
                     <div ref={profileRef} id="profile-window" className="absolute right-2 top-14 border-2 bg-white w-fit h-fit rounded-md flex flex-col justify-start items-start m-2 p-1 z-10">
                         <div>
-                            <p className=" font-bold py-0 px-1 text-lg">{username}</p>
+                            <p className="font-bold py-0 px-1 text-lg">{username}</p>
                             <p className="py-0 px-1 text-md">{userEmail}</p>
                             <p className="p-1 text-md text-gray-500">{badges}</p>
                         </div>

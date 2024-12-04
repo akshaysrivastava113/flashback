@@ -6,6 +6,12 @@ const prisma = new PrismaClient();
 
 const router = Router();
 
+router.get('/test', (req: Request, res: Response) => {
+    res.status(HttpStatusCodeEnum.OK).json({
+        "msg": "Server running"
+    });
+});
+
 router.get('/', verifyToken, async (req: Request, res: Response) => {
     const allQuestionaires = await prisma.questionaire.findMany({
         select: {
@@ -24,13 +30,14 @@ router.get('/quest/:questionaireIdUrl', verifyToken, async (req: Request, res: R
         select: {
             id: true,
             ask: true,
-            answer: true
+            answer: true,
+            position: true
           },
         where: {
             questionId: questionaireIdUrl
         },
         orderBy: {
-            id: "asc"
+            position: "asc"
         }
     });
     res.status(HttpStatusCodeEnum.OK).json(allSlidesOfQ);

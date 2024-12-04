@@ -39,7 +39,6 @@ export default function SlidesDisplay() {
     const [isFlipped, setIsFlipped] = useState(false);
 
     useEffect(() => {
-        console.log("ran signedIntoken",signedIntoken );
         currentSlide = 0;
         axios.get<Slides[]>(`${backend_url}/quest/${questIdParam}`, {
             headers: {
@@ -56,7 +55,6 @@ export default function SlidesDisplay() {
             console.log(err);
             setLoading(false);
         }).finally(() => {
-            console.log("ran");
             setLoading(false);
         })
 
@@ -81,7 +79,6 @@ export default function SlidesDisplay() {
     
 
     if(loading) {
-        console.log(loading);
         return (
             <div className="h-screen flex justify-center items-center">
                 <RotateLoader color="#485AFF" loading={loading} />
