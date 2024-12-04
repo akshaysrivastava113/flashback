@@ -1,5 +1,6 @@
 import { useRef, useState } from "react"
 import crossSign from "../../public/cross.svg";
+import pencilSquareSign from "../../public/pencil-square.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
 import plusSign from "../../public/plus.svg";
@@ -115,23 +116,32 @@ export default function CreateQuestionaire(){
                         <div id="slide-container" className="w-40 md:w-48 lg:w-56 h-40 md:h-48 lg:h-56 flex flex-col m-4 p-2 border border-gray-100 rounded-xl shadow-lg transition duration-100 ease-in-out transform hover:scale-110">
                             <div id="slide-header" className=" flex justify-between">
                                 <p>{slide.pos}</p>
-                                <button id="del-btn" onClick={() => {
-                                    setSlidesData((prevArray: any) => {
-                                        //TODO: do it in one loop
-                                        //remove the slide
-                                        const newArray = prevArray.filter((item: any) => item.pos !== slide.pos);
-                                        //sync up the ids post delete
-                                        newArray.map((item: any) => {
-                                            console.log(item.pos);
-                                            if(item.pos>slide.pos){
-                                                item.pos = item.pos-1;
-                                            }
-                                        });
-                                        setPos(prevPos => prevPos-1);
-                                        console.log(newArray);
-                                        return newArray;
-                                    })
-                                    }}><img src={crossSign} className="w-8 h-8 p-1 transition duration-100 ease-in-out transform hover:scale-110"/></button>
+                                <div className="flex">
+                                    <button id="edit-btn" onClick={() => {
+                                        
+                                        }}>
+                                        <img src={pencilSquareSign} className="w-8 h-8 p-1 transition duration-100 ease-in-out transform hover:scale-110"/>
+                                    </button>
+                                    <button id="del-btn" onClick={() => {
+                                        setSlidesData((prevArray: any) => {
+                                            //TODO: do it in one loop
+                                            //remove the slide
+                                            const newArray = prevArray.filter((item: any) => item.pos !== slide.pos);
+                                            //sync up the ids post delete
+                                            newArray.map((item: any) => {
+                                                console.log(item.pos);
+                                                if(item.pos>slide.pos){
+                                                    item.pos = item.pos-1;
+                                                }
+                                            });
+                                            setPos(prevPos => prevPos-1);
+                                            console.log(newArray);
+                                            return newArray;
+                                        })
+                                        }}>
+                                            <img src={crossSign} className="w-8 h-8 p-1 transition duration-100 ease-in-out transform hover:scale-110"/>
+                                    </button>
+                                </div>
                             </div>
                             <div id="slide-content" className="flex flex-col overflow-hidden">
                                 <p className="text-xl break-words line-clamp-5">{slide.ask}</p>

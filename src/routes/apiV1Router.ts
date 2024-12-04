@@ -53,6 +53,11 @@ router.post('/create', verifyToken , async (req: Request, res: Response): Promis
     res.send("Created");
 });
 
+router.patch('/edit/:questionaireIdUrl', (req: Request, res: Response) => {
+    //Get all the slides in relevance to the q id
+    //Capture the new questionaire title, slides from the post
+});
+
 router.post('/remove', (req: Request, res: Response) => {
 
 });
