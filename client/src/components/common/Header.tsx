@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom"
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
-import ProfileIcon from "./ProfileIcon";
+import ProfileIcon from "../profile/ProfileIcon";
 import Cookies from "js-cookie";
-import signout from "../../public/singout.svg";
+import signout from "../../../public/singout.svg";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 const backend_url = process.env.REACT_APP_BACKEND_URL;

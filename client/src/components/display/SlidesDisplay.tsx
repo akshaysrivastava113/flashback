@@ -3,10 +3,10 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { RotateLoader } from 'react-spinners';
-import doubleLeftArrow from '../../public/doubleLeftArrow.svg';
-import doubleRightArrow from '../../public/doubleRightArrow.svg';
-import PublicErrorPage from "./PublicErrorPage";
-import FlipCard from "./FlipCard";
+import doubleLeftArrow from '../../../public/doubleLeftArrow.svg';
+import doubleRightArrow from '../../../public/doubleRightArrow.svg';
+import PublicErrorPage from "../common/PublicErrorPage";
+import FlipCard from "../display/FlipCard";
 
 type Params = Record<string, string | undefined>;
 

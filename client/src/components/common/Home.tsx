@@ -2,12 +2,11 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import QuestionaireDisplay from "./QuestionaireDisplay";
 import Cookies from "js-cookie";
-import bgImage1 from '../../public/a_cartoony_textless_science_trivia_youtube_thumbnail.jpeg';
-import bgImage2 from '../../public/cartoony_textless_maths_trivia_youtube_thumbnail.jpeg';
-import bgImage3 from '../../public/cartoony_textless_history_trivia_youtube_thumbnail_with.jpeg';
+import bgImage1 from '../../../public/a_cartoony_textless_science_trivia_youtube_thumbnail.jpeg';
+import bgImage2 from '../../../public/cartoony_textless_maths_trivia_youtube_thumbnail.jpeg';
+import bgImage3 from '../../../public/cartoony_textless_history_trivia_youtube_thumbnail_with.jpeg';
 import PublicErrorPage from "./PublicErrorPage";
 import { RotateLoader } from 'react-spinners';
-import { useNavigate } from "react-router-dom";
 
 interface Quest {
     id: string;
@@ -15,8 +14,8 @@ interface Quest {
     authorId: string;
 }
 
-export default function Profile(){
-    const navigate = useNavigate();
+
+export default function Home() {
     const signedIntoken: string | any = Cookies.get("fl-token");
     const signedInUser: boolean = Cookies.get("fl-token")?true:false;
     const backend_url = process.env.REACT_APP_BACKEND_URL;
@@ -28,7 +27,7 @@ export default function Profile(){
         const fetchData = async() => {
             setLoading(true);
             try {
-                const allQuestionaires = await axios.get<Quest[]>(`${backend_url}/user/profile`, {
+                const allQuestionaires = await axios.get<Quest[]>(`${backend_url}/`, {
                     headers: {
                         "Authorization":`Bearer ${signedIntoken}`
                     }
@@ -60,32 +59,23 @@ export default function Profile(){
 
 
     return (
-        signedInUser?
-        <div id="profile" className={`flex flex-col flex-wrap h-screen ${signedInUser?'justify-start':'justify-center'}`}>
-            <div id="my-quests-title" className="m-2 p-2">
-                <h2 className="text-xl font-bold">My Questionaires</h2>
-            </div>
-        
-            <div id="my-quests" className="flex justify-start flex-wrap">
-
-                {questionaires.length>0?questionaires.map((questItem) => {
+        <div id="home" className={`flex flex-wrap h-[90%] ${signedInUser?'justify-start':'justify-center'}`}>
+            <div className="flex justify-center md:justify-center lg:justify-start flex-wrap w-full mt-10">
+                
+                {signedInUser?questionaires.map((questItem) => {
                     if(questItem.title === "Science"){
                         bgImageUrl = bgImage1;
                     } else if(questItem.title === "Maths"){
                         bgImageUrl = bgImage2;
                     } else if (questItem.title === "History"){
                         bgImageUrl = bgImage3;
-                    } else {
-                        bgImageUrl = bgImage3;
                     }
                     return (
 
                         <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} />
                     )
-                }):<h5 className="m-2 p-2">No Questionaires found. Create some <span className="text-blue-400 cursor-pointer" onClick={() => navigate('/create')}>here</span></h5>} 
-
-            </div>
+                }):<PublicErrorPage text={errorText}/>}
+          </div>
         </div>
-        :<PublicErrorPage text={errorText}/>
     )
 }

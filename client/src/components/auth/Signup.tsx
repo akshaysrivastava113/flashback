@@ -3,9 +3,9 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
-import ErrorOccurred from "./ErrorOccurred";
-import SecondaryButton from "./SecondaryButton";
-import PublicErrorPage from "./PublicErrorPage";
+import ErrorOccurred from "../common/ErrorOccurred";
+import SecondaryButton from "../common/SecondaryButton";
+import PublicErrorPage from "../common/PublicErrorPage";
 
 const backend_url = process.env.REACT_APP_BACKEND_URL;
 const expiryTime = 30/1440;

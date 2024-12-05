@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
-import Home from './components/Home';
-import Test from './components/Test'
-import Header from './components/Header';
-import SlidesDisplay from './components/SlidesDisplay';
-import Signup from './components/Signup';
-import Signin from './components/Signin';
-import CreateQuestionaire from './components/CreateQuestionaire';
-import Profile from './components/Profile';
+import Home from './components/common/Home';
+import Test from './components/common/Test'
+import Header from './components/common/Header';
+import SlidesDisplay from './components/display/SlidesDisplay';
+import Signup from '../src/components/auth/Signup';
+import Signin from '../src/components/auth/Signin';
+import CreateQuestionaire from './components/create/CreateQuestionaire';
+import Profile from './components/profile/Profile';
 
 function App() {
 

@@ -1,15 +1,15 @@
 import { useRef, useState } from "react"
-import crossSign from "../../public/cross.svg";
-import pencilSquareSign from "../../public/pencil-square.svg";
+import crossSign from "../../../public/cross.svg";
+import pencilSquareSign from "../../../public/pencil-square.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
-import plusSign from "../../public/plus.svg";
-import chatBubbleSign from "../../public/chatBubble.svg";
+import plusSign from "../../../public/plus.svg";
+import chatBubbleSign from "../../../public/chatBubble.svg";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
-import PublicErrorPage from "./PublicErrorPage";
+import PublicErrorPage from "../common/PublicErrorPage";
 import Adder from "./Adder";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "../common/PrimaryButton";
 import Alter from "./Alter";
 
 export default function CreateQuestionaire(){
