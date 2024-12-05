@@ -10,7 +10,8 @@ z.object(
                 {
                     id: z.number().optional(),
                     ask: z.string(),
-                    answer: z.string()
+                    answer: z.string(),
+                    position: z.number()
                 }
             )
         )

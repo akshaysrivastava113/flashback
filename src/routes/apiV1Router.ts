@@ -41,7 +41,7 @@ router.post('/create', verifyToken , async (req: Request, res: Response): Promis
         const createSlides = await prisma.slides.create({
             data:{
                 id: randomSlidesUUID,
-                position: slideRec.id,
+                position: slideRec.position,
                 ask: slideRec.ask,
                 answer: slideRec.answer,
                 questionId: randomQuestionaireUUID

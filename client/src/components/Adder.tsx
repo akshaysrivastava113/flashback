@@ -85,9 +85,9 @@ export default function Adder(props: propsInterface) {
                             if(ask !== "" && answer !==""){
                                 props.setTotalSlides((prevPos: any) => prevPos+1);
                                 const newItem = {
-                                    position: props.totalSlides,
                                     ask: ask,
-                                    answer: answer
+                                    answer: answer,
+                                    position: props.totalSlides,
                                 };
                                 props.setSlidesData((prevState: any) => [...prevState, newItem]);
                                 props.setSlidesDataBlank(false);

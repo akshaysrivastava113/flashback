@@ -57,7 +57,7 @@ export default function CreateQuestionaire(){
                 questTitle: qTitle,
                 slidesData: slidesData
             };
-            
+            console.log(finalObj);
             axios.post(`${backend_url}`+`/api/v1/create`, finalObj, {
                 headers: {
                     "Authorization":`Bearer ${signedIntoken}`
