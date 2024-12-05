@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Editor } from "@tinymce/tinymce-react";
 import crossSign from "../../public/cross.svg";
 import { BeatLoader } from "react-spinners";
 export default function Alter(props: any) {
+    const [slideEdit, setSlideEdit] = useState<any>({});
     const [ask, setAsk] = useState("");
     const [askBlank, setAskBlank] = useState(false);
     const [answer, setAnswer] = useState("");
     const [answerBlank, setAnswerBlank] = useState(false);
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
+    const editorRef = useRef(null);
 
+
+    useEffect(() => {
         console.log('props.posToSend', props.posToSend);
         const item = props.slidesData.filter((slide: any) => slide.position === props.posToSend);
+        setSlideEdit(item);
         setAsk(item[0].ask);
         setAnswer(item[0].answer);
     }, [])
@@ -33,8 +37,7 @@ export default function Alter(props: any) {
                         <div className={`w-full h-full p-2 ${answerBlank?'bg-red-100':'bg-white'}`}>
                             {loading&&<div className="flex justify-center"><BeatLoader color="#485aff" size={5} /></div>}
                             <Editor
-                            apiKey="2o3sk03e8b1eju7yi39u52gfpytz5ci52ffy5bcleaujmzk2"
-                            initialValue={answer}
+                            value={answer}
                             init={{
                                 placeholder: "Write your content here...",
                                 height: 300,
@@ -57,7 +60,8 @@ export default function Alter(props: any) {
                                     { text: "Java", value: "java" },
                                     { text: "C++", value: "cpp" },
                                 ],
-                                content_style: `pre {
+                                content_style: `
+                                pre {
                                     background-color: #f4f4f4;
                                     padding: 10px;
                                     border-radius: 5px;
@@ -67,6 +71,10 @@ export default function Alter(props: any) {
                                         setLoading(false);
                                     }); // Trigger when TinyMCE is initialized
                                 },
+                                }}
+                                onEditorChange={(content) => {
+                                    console.log(content);
+                                    setAnswer(content);
                                 }}
                                 />
                         </div>
@@ -82,19 +90,26 @@ export default function Alter(props: any) {
                             console.log(answer);
                             console.log(answerBlank);
                             if(ask !== "" && answer !==""){
-                                props.setPos((prevPos: any) => prevPos+1);
-                                const newItem = {
-                                    position: props.totalSlides,
-                                    ask: ask,
-                                    answer: answer
-                                };
-                                props.setSlidesData((prevState: any) => [...prevState, newItem]);
-                                props.setSlidesDataBlank(false);
-                                props.setAdderModal(false);
+                                props.slidesData.map((slide: any) => {
+                                    if(slide.position === props.posToSend){
+                                        slide.ask = ask;
+                                        slide.answer = answer;
+                                    }
+                                });
+                                props.setAlterModal(false);
+                                // props.setPos((prevPos: any) => prevPos+1);
+                                // const newItem = {
+                                //     position: props.totalSlides,
+                                //     ask: ask,
+                                //     answer: answer
+                                // };
+                                // props.setSlidesData((prevState: any) => [...prevState, newItem]);
+                                // props.setSlidesDataBlank(false);
+                                // props.setAdderModal(false);
                             }
                             
                         }} className="bg-primaryBlue flex justify-center items-center m-2 p-1 rounded-md">
-                        <span className=" text-white font-bold text-xl p-2">Add</span>
+                        <span className=" text-white font-bold text-xl p-2">Edit</span>
                         </button> 
                     </div>
                 </div>
