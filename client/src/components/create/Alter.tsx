@@ -3,19 +3,16 @@ import { Editor } from "@tinymce/tinymce-react";
 import crossSign from "../../../public/cross.svg";
 import { BeatLoader } from "react-spinners";
 export default function Alter(props: any) {
-    const [slideEdit, setSlideEdit] = useState<any>({});
     const [ask, setAsk] = useState("");
     const [askBlank, setAskBlank] = useState(false);
     const [answer, setAnswer] = useState("");
     const [answerBlank, setAnswerBlank] = useState(false);
     const [loading, setLoading] = useState(true);
-    const editorRef = useRef(null);
 
 
     useEffect(() => {
         console.log('props.posToSend', props.posToSend);
         const item = props.slidesData.filter((slide: any) => slide.position === props.posToSend);
-        setSlideEdit(item);
         setAsk(item[0].ask);
         setAnswer(item[0].answer);
     }, [])

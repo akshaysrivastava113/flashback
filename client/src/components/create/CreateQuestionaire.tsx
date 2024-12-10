@@ -28,7 +28,6 @@ export default function CreateQuestionaire(){
     const [loading, setLoading] = useState(false);
     const [adderModal, setAdderModal] = useState(false);
     const [alterModal, setAlterModal] = useState(false);
-    const modalRef = useRef(null);
     // useEffect(() => {
     //     const handleClickOutside = (event: any) => {
     //         if(adderModal && modalRef.current && !modalRef.current.contains(event.target)){
