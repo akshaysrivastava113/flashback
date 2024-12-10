@@ -36,6 +36,7 @@ router.post('/create', verifyToken , async (req: Request, res: Response): Promis
     });
 
 
+
     slidesRec.map(async (slideRec: any) => {
         const randomSlidesUUID: string = uuidv4();
         const createSlides = await prisma.slides.create({
@@ -50,7 +51,7 @@ router.post('/create', verifyToken , async (req: Request, res: Response): Promis
     })
 
 
-    res.send("Created");
+    res.send("Creeted");
 });
 
 router.patch('/edit/:questionaireIdUrl', (req: Request, res: Response) => {

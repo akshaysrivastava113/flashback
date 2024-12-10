@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 const router = Router();
 
 router.get('/test', (req: Request, res: Response) => {
+    console.log("Server running");
     res.status(HttpStatusCodeEnum.OK).json({
         "msg": "Server running"
     });

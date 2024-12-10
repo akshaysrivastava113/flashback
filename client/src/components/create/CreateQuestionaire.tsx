@@ -89,7 +89,7 @@ export default function CreateQuestionaire(){
                     </div>
 
                     <div className="flex justify-end items-center col-span-1">
-                        <PrimaryButton customTailwind="p-2" execFunc={publishQuest} tailIcon={chatBubbleSign} text={loading?<BeatLoader color="#485aff" size={5} />:'Publish' } /> 
+                        <PrimaryButton customTailwind="p-2" execFunc={publishQuest} tailIcon={chatBubbleSign} text={loading?<BeatLoader color="#FFFFFF" size={5} />:'Publish' } /> 
                     </div>
 
                     <div className="flex justify-start items-center col-span-2">

@@ -18,6 +18,12 @@ const client_1 = require("@prisma/client");
 const enums_1 = require("../constants/enums");
 const prisma = new client_1.PrismaClient();
 const router = (0, express_1.Router)();
+router.get('/test', (req, res) => {
+    console.log("Server running");
+    res.status(enums_1.HttpStatusCodeEnum.OK).json({
+        "msg": "Server running"
+    });
+});
 router.get('/', verifyToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const allQuestionaires = yield prisma.questionaire.findMany({
         select: {
@@ -35,13 +41,14 @@ router.get('/quest/:questionaireIdUrl', verifyToken_1.default, (req, res) => __a
         select: {
             id: true,
             ask: true,
-            answer: true
+            answer: true,
+            position: true
         },
         where: {
             questionId: questionaireIdUrl
         },
         orderBy: {
-            id: "asc"
+            position: "asc"
         }
     });
     res.status(enums_1.HttpStatusCodeEnum.OK).json(allSlidesOfQ);

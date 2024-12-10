@@ -10,6 +10,7 @@ exports.questionaireSchema = zod_1.default.object({
     slidesData: zod_1.default.array(zod_1.default.object({
         id: zod_1.default.number().optional(),
         ask: zod_1.default.string(),
-        answer: zod_1.default.string()
+        answer: zod_1.default.string(),
+        position: zod_1.default.number()
     }))
 });

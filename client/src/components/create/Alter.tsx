@@ -79,38 +79,40 @@ export default function Alter(props: any) {
                                 />
                         </div>
                     </div>
-                    <div id="adder-btn" className="flex justify-end bg-white">
-                        <button title="Add" onClick={() => {
-                            
-                            setAskBlank(false);
-                            setAnswerBlank(false);
-                            
-                            if(ask === "") setAskBlank(true);
-                            if(answer === "") setAnswerBlank(true);
-                            console.log(answer);
-                            console.log(answerBlank);
-                            if(ask !== "" && answer !==""){
-                                props.slidesData.map((slide: any) => {
-                                    if(slide.position === props.posToSend){
-                                        slide.ask = ask;
-                                        slide.answer = answer;
-                                    }
-                                });
-                                props.setAlterModal(false);
-                                // props.setPos((prevPos: any) => prevPos+1);
-                                // const newItem = {
-                                //     position: props.totalSlides,
-                                //     ask: ask,
-                                //     answer: answer
-                                // };
-                                // props.setSlidesData((prevState: any) => [...prevState, newItem]);
-                                // props.setSlidesDataBlank(false);
-                                // props.setAdderModal(false);
-                            }
-                            
-                        }} className="bg-primaryBlue flex justify-center items-center m-2 p-1 rounded-md">
-                        <span className=" text-white font-bold text-xl p-2">Edit</span>
-                        </button> 
+
+                    <div className="flex justify-end">
+                        <div id="discard-btn" className="flex justify-end">
+                            <button title="Discard Changes" onClick={() => props.setAlterModal(false)} className="bg-white border border-primaryBlue flex justify-center items-center m-2 p-1 rounded-md">
+                                <span className=" text-primaryBlue font-bold text-xl p-1">Discard</span>
+                            </button> 
+                        </div>
+
+                        
+                        <div id="save-btn" className="flex justify-end bg-white">
+                            <button title="Save Changes" onClick={() => {
+                                
+                                setAskBlank(false);
+                                setAnswerBlank(false);
+                                
+                                if(ask === "") setAskBlank(true);
+                                if(answer === "") setAnswerBlank(true);
+                                console.log(answer);
+                                console.log(answerBlank);
+                                if(ask !== "" && answer !==""){
+                                    props.slidesData.map((slide: any) => {
+                                        if(slide.position === props.posToSend){
+                                            slide.ask = ask;
+                                            slide.answer = answer;
+                                        }
+                                    });
+                                    props.setAlterModal(false);
+                                
+                                }
+                                
+                            }} className="bg-primaryBlue flex justify-center items-center m-2 p-1 rounded-md">
+                            <span className=" text-white font-bold text-xl p-1">Save</span>
+                            </button> 
+                        </div>
                     </div>
                 </div>
             </div>

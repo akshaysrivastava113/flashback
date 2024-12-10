@@ -47,15 +47,19 @@ router.post('/create', verifyToken_1.default, (req, res) => __awaiter(void 0, vo
         const createSlides = yield prisma.slides.create({
             data: {
                 id: randomSlidesUUID,
-                position: slideRec.id,
+                position: slideRec.position,
                 ask: slideRec.ask,
                 answer: slideRec.answer,
                 questionId: randomQuestionaireUUID
             }
         });
     }));
-    res.send("Created");
+    res.send("Creeted");
 }));
+router.patch('/edit/:questionaireIdUrl', (req, res) => {
+    //Get all the slides in relevance to the q id
+    //Capture the new questionaire title, slides from the post
+});
 router.post('/remove', (req, res) => {
 });
 exports.default = router;

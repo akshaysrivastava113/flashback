@@ -19,7 +19,7 @@ app.use('/', homeRouter_1.default);
 app.use('/user', userRouter_1.default);
 app.use('/auth', authenticateRouter_1.default);
 app.use('/api/v1', apiV1Router_1.default);
-const job = node_cron_1.default.schedule('*/2 * * * *', () => {
+const job = node_cron_1.default.schedule('*/60 * * * *', () => {
     const currentDate = new Date();
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();
@@ -29,7 +29,7 @@ const job = node_cron_1.default.schedule('*/2 * * * *', () => {
 });
 job.start();
 dotenv_1.default.config();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Listening on ${PORT}`);
 });
