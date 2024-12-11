@@ -72,7 +72,7 @@ router.delete('/remove', verifyToken, async (req: Request, res: Response): Promi
     }
 
     const questionnaireId = body.questionnaireId;
-    const userId = body.userId;
+    const userId = (req as any).userId;
 
     try {
         const deleteSlidesOfQ = await prisma.slides.deleteMany({
@@ -91,7 +91,7 @@ router.delete('/remove', verifyToken, async (req: Request, res: Response): Promi
             where: {
                 AND: [
                     { id: questionnaireId },
-                    { authorId: userId}
+                    { authorId: userId.id}
                 ]
             }
         });

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import QuestionaireDisplay from "../common/QuestionaireDisplay";
 import Cookies from "js-cookie";
 import bgImage1 from '../../../public/a_cartoony_textless_science_trivia_youtube_thumbnail.jpeg';
@@ -23,6 +23,7 @@ export default function Profile(){
     const [questionaires, setQuestionaires] = useState<Quest[]>([]);
     const [loading, setLoading] = useState(false);
     const [delModal, setDelModal] = useState(false);
+    const [clickedId, setClickedId] = useState("");
     let bgImageUrl: string;
 
     useEffect(() => {
@@ -49,6 +50,23 @@ export default function Profile(){
             
     },[]);
 
+    const deleteQuestCall = () => {
+        console.log(clickedId);
+        axios.delete(`${backend_url}/api/v1/remove`, {
+            data: {
+                questionnaireId: clickedId
+            },
+            headers: {
+                "Authorization":`Bearer ${signedIntoken}`
+            }
+        }).then((res) => {
+            console.log(res);
+            window.location.reload();
+        }).catch((e) => {
+            console.error(e);
+        });
+
+    }
     const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a className="text-blue-400 cursor-pointer" href="/signin">sign in</a> to continue.</p></>);
 
     if(loading) {
@@ -81,20 +99,19 @@ export default function Profile(){
                     }
                     return (
 
-                        <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} editBtn={true} delBtn={true} setDelModal={setDelModal} />
+                        <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} questId={questItem.id} title={questItem.title} editBtn={true} delBtn={true} setDelModal={setDelModal} setClickedId={setClickedId}/>
                     )
                 }):<h5 className="m-2 p-2">No Questionaires found. Create some <span className="text-blue-400 cursor-pointer" onClick={() => navigate('/create')}>here</span></h5>} 
 
             </div>
-            {
-            delModal&&
-            <div className="absolute w-full h-full top-0 flex justify-center items-center bg-black bg-opacity-20">
+            {delModal&&
+            <div id={clickedId} className="absolute w-full h-full top-0 flex justify-center items-center bg-black bg-opacity-20">
                 <div id="del-cnf-modal" className="w-1/5 flex flex-col justify-center items-center bg-white">
                     <div className="flex justify-center items-center">
                         <p className="p-2 m-4">Are you sure?</p>
                     </div>
                     <div className="w-full flex justify-evenly items-center">
-                        <button className="flex-1 p-2 m-4 bg-primaryBlue">Yes</button>
+                        <button onClick={() => deleteQuestCall()} className="flex-1 p-2 m-4 bg-primaryBlue">Yes</button>
                         <button onClick={() => setDelModal(false)} className="flex-1 p-2 m-4 bg-red-400">No</button>
                     </div>
                 </div>
