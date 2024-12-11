@@ -51,7 +51,6 @@ export default function Profile(){
     },[]);
 
     const deleteQuestCall = () => {
-        console.log(clickedId);
         axios.delete(`${backend_url}/api/v1/remove`, {
             data: {
                 questionnaireId: clickedId
