@@ -1,24 +1,37 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import pencilSquareWhiteSign from "../../../public/pencilSquareWhite.svg";
+import crossWhiteSign from "../../../public/crosswhite.svg";
 export default function QuestionaireDisplay(props: any) {
     const navigate = useNavigate();
 
     return (
         <div
-        onClick={() => navigate(`/quest/${props.id}`)}
         className="relative w-40 md:w-48 lg:w-64 h-40 md:h-48 lg:h-64 rounded-lg m-2 cursor-pointer overflow-hidden group shadow-lg hover:shadow-2xl transition-shadow duration-300"
         style={{ backgroundImage: `url(${props.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-bg duration-300">
-            {/* Text */}
-            <div className="absolute bottom-4 left-0 w-full text-center">
-            <p className="text-white text-lg font-semibold px-4 mb-4">
-                {props.title}
-            </p>
+            <div className="absolute inset-0 flex flex-col bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-bg duration-300">
+                {/* Text */}
+                <div onClick={() => navigate(`/quest/${props.id}`)} className="h-full bottom-4 left-0 w-full text-center flex justify-center items-center">
+                    <p className="text-white text-lg font-semibold">
+                        {props.title}
+                    </p>
+                </div>
+                <div id="crud-ops" className="flex">
+                    {props.editBtn&&
+                    <div onClick={() => {
+                        console.log("Clicked edit");
+                    }} className=" h-16 flex-1 flex justify-center items-center bg-opacity-30 hover:bg-white hover:bg-opacity-50">
+                        <img src={pencilSquareWhiteSign} className="font-semibold w-8 h-8 p-1"/>
+                    </div>}
+                    {props.delBtn&&
+                    <div onClick={() => {
+                        props.setDelModal(true);
+                    }} className="h-16 flex-1 flex justify-center items-center bg-opacity-30 hover:bg-white hover:bg-opacity-50">
+                        <img src={crossWhiteSign} className="font-semibold w-8 h-8 p-1"/>
+                    </div>}
+                </div>
             </div>
-        </div>
-        </div>
 
-
+        </div>
     )
 }

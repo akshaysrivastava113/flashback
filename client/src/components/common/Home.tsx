@@ -72,7 +72,7 @@ export default function Home() {
                     }
                     return (
 
-                        <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} />
+                        <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} editBtn={false} delBtn={false} />
                     )
                 }):<PublicErrorPage text={errorText}/>}
           </div>

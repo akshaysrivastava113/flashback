@@ -19,6 +19,7 @@ const prisma = new client_1.PrismaClient();
 const slidesShema_1 = require("../schemas/slidesShema");
 const enums_1 = require("../constants/enums");
 const uuid_1 = require("uuid");
+const deleteBody_1 = require("../schemas/deleteBody");
 const router = (0, express_1.Router)();
 router.post('/create', verifyToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //1. Accept token from the header
@@ -60,6 +61,24 @@ router.patch('/edit/:questionaireIdUrl', (req, res) => {
     //Get all the slides in relevance to the q id
     //Capture the new questionaire title, slides from the post
 });
-router.post('/remove', (req, res) => {
-});
+router.delete('/remove', verifyToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //Get the id from the request
+    //perform the delete
+    const body = req.body;
+    const bodySanitized = deleteBody_1.deleteBodySchema.safeParse(body);
+    if (!bodySanitized.success) {
+        return res.status(enums_1.HttpStatusCodeEnum.BadRequest).json(enums_1.HttpStatusMessages[enums_1.HttpStatusCodeEnum.BadRequest]);
+    }
+    const questionnaireId = body.questionnaireId;
+    const userId = body.userId;
+    const deleteQuest = yield prisma.questionaire.deleteMany({
+        where: {
+            AND: [
+                { id: questionnaireId },
+                { authorId: userId }
+            ]
+        }
+    });
+    res.status(enums_1.HttpStatusCodeEnum.OK).json(enums_1.HttpStatusMessages[enums_1.HttpStatusCodeEnum.OK]);
+}));
 exports.default = router;

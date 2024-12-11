@@ -22,6 +22,7 @@ export default function Profile(){
     const backend_url = process.env.REACT_APP_BACKEND_URL;
     const [questionaires, setQuestionaires] = useState<Quest[]>([]);
     const [loading, setLoading] = useState(false);
+    const [delModal, setDelModal] = useState(false);
     let bgImageUrl: string;
 
     useEffect(() => {
@@ -80,11 +81,25 @@ export default function Profile(){
                     }
                     return (
 
-                        <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} />
+                        <QuestionaireDisplay bgImage={bgImageUrl} key={questItem.id} id={questItem.id} title={questItem.title} editBtn={true} delBtn={true} setDelModal={setDelModal} />
                     )
                 }):<h5 className="m-2 p-2">No Questionaires found. Create some <span className="text-blue-400 cursor-pointer" onClick={() => navigate('/create')}>here</span></h5>} 
 
             </div>
+            {
+            delModal&&
+            <div className="absolute w-full h-full top-0 flex justify-center items-center bg-black bg-opacity-20">
+                <div id="del-cnf-modal" className="w-1/5 flex flex-col justify-center items-center bg-white">
+                    <div className="flex justify-center items-center">
+                        <p className="p-2 m-4">Are you sure?</p>
+                    </div>
+                    <div className="w-full flex justify-evenly items-center">
+                        <button className="flex-1 p-2 m-4 bg-primaryBlue">Yes</button>
+                        <button onClick={() => setDelModal(false)} className="flex-1 p-2 m-4 bg-red-400">No</button>
+                    </div>
+                </div>
+            </div>
+            }
         </div>
         :<PublicErrorPage text={errorText}/>
     )
