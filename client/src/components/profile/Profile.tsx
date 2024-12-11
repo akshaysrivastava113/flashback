@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import QuestionaireDisplay from "../common/QuestionaireDisplay";
 import Cookies from "js-cookie";
 import bgImage1 from '../../../public/a_cartoony_textless_science_trivia_youtube_thumbnail.jpeg';
