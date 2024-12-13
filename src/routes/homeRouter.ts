@@ -27,6 +27,15 @@ router.get('/', verifyToken, async (req: Request, res: Response) => {
 
 router.get('/quest/:questionaireIdUrl', verifyToken, async (req: Request, res: Response) => {
     const questionaireIdUrl = req.params.questionaireIdUrl;
+    const questTitle = await prisma.questionaire.findFirst({
+        select: {
+            title: true,
+        },
+        where: {
+            id: questionaireIdUrl
+        }
+    });
+
     const allSlidesOfQ = await prisma.slides.findMany({
         select: {
             id: true,
@@ -41,7 +50,13 @@ router.get('/quest/:questionaireIdUrl', verifyToken, async (req: Request, res: R
             position: "asc"
         }
     });
-    res.status(HttpStatusCodeEnum.OK).json(allSlidesOfQ);
+    const objToSend = {
+        title: questTitle,
+        slides: allSlidesOfQ
+    };
+
+    console.log(allSlidesOfQ);
+    res.status(HttpStatusCodeEnum.OK).json(objToSend);
 });
 
 export default router;

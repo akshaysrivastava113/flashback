@@ -10,6 +10,7 @@ type propsInterface = {
     setSlidesDataBlank: React.Dispatch<React.SetStateAction<boolean>>;
     setAdderModal : React.Dispatch<React.SetStateAction<boolean>>;
 }
+const tinymce_api_key = process.env.TINYMCE_API_KEY;
 export default function Adder(props: propsInterface) {
     const [ask, setAsk] = useState("");
     const [askBlank, setAskBlank] = useState(false);
@@ -33,7 +34,7 @@ export default function Adder(props: propsInterface) {
                         <div className={`w-full h-full p-2 ${answerBlank?'bg-red-100':'bg-white'}`}>
                             {loading&&<div className="flex justify-center"><BeatLoader color="#485aff" size={5} /></div>}
                             <Editor
-                            apiKey="2o3sk03e8b1eju7yi39u52gfpytz5ci52ffy5bcleaujmzk2"
+                            apiKey={tinymce_api_key}
                             initialValue=""
                             init={{
                                 placeholder: "Write your content here...",

@@ -8,19 +8,22 @@ import doubleRightArrow from '../../../public/doubleRightArrow.svg';
 import PublicErrorPage from "../common/PublicErrorPage";
 import FlipCard from "../display/FlipCard";
 
-type Params = Record<string, string | undefined>;
+    type Params = Record<string, string | undefined>;
 
-  const backend_url = process.env.REACT_APP_BACKEND_URL;
+    const backend_url = process.env.REACT_APP_BACKEND_URL;
     
-  interface Slides {
-    id: string;
-    ask: string;
-    answer: string;
-}
-
-  let currentSlide = 0;
+    interface Slides {
+        id: string;
+        ask: string;
+        answer: string;
+    }
+    interface receivedQuestData {
+        title: string,
+        slides: string[]
+    }
+    let currentSlide = 0;
   
-  const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a className="text-blue-400 cursor-pointer" href="/signin">sign in</a> to continue.</p></>);
+    const errorText = (<><p>Looks like you don't have access to this page!</p><p>Please <a className="text-blue-400 cursor-pointer" href="/signin">sign in</a> to continue.</p></>);
   
 export default function SlidesDisplay() {
 
@@ -40,17 +43,17 @@ export default function SlidesDisplay() {
 
     useEffect(() => {
         currentSlide = 0;
-        axios.get<Slides[]>(`${backend_url}/quest/${questIdParam}`, {
+        axios.get<receivedQuestData>(`${backend_url}/quest/${questIdParam}`, {
             headers: {
                  "Authorization":`Bearer ${signedIntoken}`
             }
-        }).then((allSlides) => {
-            console.log(allSlides);
-            setSlidesState(allSlides.data);
-            setTotalSlides(allSlides.data.length);
+        }).then((allSlides: any) => {
+            console.log("allSlides", allSlides);
+            setSlidesState(allSlides.data.slides);
+            setTotalSlides(allSlides.data.slides.length);
             setLoading(false);
-            setCurrentAsk(allSlides.data[currentSlide].ask);
-            setCurrentAns(allSlides.data[currentSlide].answer);
+            setCurrentAsk(allSlides.data.slides[currentSlide].ask);
+            setCurrentAns(allSlides.data.slides[currentSlide].answer);
         }).catch((err) => {
             console.log(err);
             setLoading(false);

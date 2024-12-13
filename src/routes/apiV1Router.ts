@@ -6,6 +6,7 @@ import { questionaireSchema } from "../schemas/slidesShema";
 import { HttpStatusCodeEnum, HttpStatusMessages } from "../constants/enums";
 import { v4 as uuidv4 } from 'uuid';
 import { deleteBodySchema } from "../schemas/deleteBodySchema"
+import { updateBodySchema } from "../schemas/updateBodySchema";
 
 const router = Router();
 
@@ -55,9 +56,77 @@ router.post('/create', verifyToken , async (req: Request, res: Response): Promis
     res.send("Creeted");
 });
 
-router.patch('/edit/:questionaireIdUrl', (req: Request, res: Response) => {
+router.patch('/edit', async (req: Request, res: Response): Promise<any> => {
     //Get all the slides in relevance to the q id
     //Capture the new questionaire title, slides from the post
+    const body = req.body;
+    const bodySanitized = updateBodySchema.safeParse(body);
+
+    if(!bodySanitized.success){
+        return res.status(HttpStatusCodeEnum.BadRequest).json(HttpStatusMessages[HttpStatusCodeEnum.BadRequest]);
+    }
+
+    const questId = body.questionnaireId;
+    const newTitle = body.questTitle;
+    const recSlides = body.slidesData;
+
+    const updateTite = await prisma.questionaire.update({
+        where: {
+            id: questId
+        },
+        data: {
+            title: newTitle
+        }
+    });
+
+    const createNewSlide = async (slide: any) => {
+        const randomSlidesUUID: string = uuidv4();
+        const createSlides = await prisma.slides.create({
+            data:{
+                id: randomSlidesUUID,
+                position: slide.position,
+                ask: slide.ask,
+                answer: slide.answer,
+                questionId: questId
+            }
+        });
+    }
+
+    recSlides.map(async (slide: any) => {
+        const slideId = slide.id&&"";
+        if(slideId != ""){
+            const findExistingSlide = await prisma.slides.findUnique({
+                where: {
+                    id: slideId
+                }
+            });
+            // console.log("findExistingSlide", findExistingSlide);
+            console.log("slideId", slideId);
+            if(findExistingSlide){
+            //Update the current one
+            const updateExistingSlide = await prisma.slides.update({
+                where: {
+                    id: slideId
+                },
+                data: {
+                    ask: slide.ask,
+                    answer: slide.answer,
+                    position: slide.position
+                }
+            })
+            } else {
+                //Create a new one
+                createNewSlide(slide);
+            }
+        } else {
+            //Create a new one
+            createNewSlide(slide);
+        }
+         
+    });
+
+    res.send("Updated");
+
 });
 
 router.delete('/remove', verifyToken, async (req: Request, res: Response): Promise<any> => {

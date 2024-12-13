@@ -19,6 +19,7 @@ export default function QuestionaireDisplay(props: any) {
                     {props.editBtn&&
                     <div onClick={() => {
                         console.log("Clicked edit");
+                        navigate(`/edit/${props.questId}`);
                     }} className=" h-16 flex-1 flex justify-center items-center bg-opacity-30 hover:bg-white hover:bg-opacity-50">
                         <img src={pencilSquareWhiteSign} className="font-semibold w-8 h-8 p-1"/>
                     </div>}

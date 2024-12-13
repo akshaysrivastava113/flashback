@@ -8,6 +8,7 @@ import Signup from '../src/components/auth/Signup';
 import Signin from '../src/components/auth/Signin';
 import CreateQuestionaire from './components/create/CreateQuestionaire';
 import Profile from './components/profile/Profile';
+import UpdateQuestionaire from './components/update/UpdateQuestionaire';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/create' element={<CreateQuestionaire/>}/>
           <Route path='/quest/:questIdParam' element={<SlidesDisplay/>}/>
+          <Route path='/edit/:questIdParam' element={<UpdateQuestionaire/>}/>
         </Routes>
       </BrowserRouter>
       </div>

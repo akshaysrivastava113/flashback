@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { Editor } from "@tinymce/tinymce-react";
 import crossSign from "../../../public/cross.svg";
 import { BeatLoader } from "react-spinners";
+const tinymce_api_key = process.env.TINYMCE_API_KEY;
+
 export default function Alter(props: any) {
     const [ask, setAsk] = useState("");
     const [askBlank, setAskBlank] = useState(false);
@@ -34,6 +36,7 @@ export default function Alter(props: any) {
                         <div className={`w-full h-full p-2 ${answerBlank?'bg-red-100':'bg-white'}`}>
                             {loading&&<div className="flex justify-center"><BeatLoader color="#485aff" size={5} /></div>}
                             <Editor
+                            apiKey={tinymce_api_key}
                             value={answer}
                             init={{
                                 placeholder: "Write your content here...",
