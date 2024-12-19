@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cron from 'node-cron';
+import cookieParser from 'cookie-parser';
 import homeRouter from "./routes/homeRouter";
 import userRouter from "./routes/userRouter";
 import apiV1Router from "./routes/apiV1Router";
@@ -9,7 +10,11 @@ import cors from "cors";
 import {cleanup} from "./cron/cleanup";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: "http://localhost:5173"
+}));
+app.use(cookieParser());
 
 app.use(express.json());
 app.use('/', homeRouter);

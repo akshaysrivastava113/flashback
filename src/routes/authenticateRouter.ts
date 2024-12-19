@@ -103,8 +103,14 @@ router.post('/signin', async (req: Request, res: Response): Promise<any> => {
         email: email
     }, JWT_SECRET);
 
+    res.cookie('fl-token', token,  {
+        httpOnly: true, // Cookie cannot be accessed via client-side JavaScript
+        secure: true,   // Cookie will only be sent over HTTPS
+        maxAge: 3600000, // Cookie expiration time in milliseconds (1 hour here)
+        sameSite: 'lax' // SameSite attribute to control cross-site request handling
+    });
     res.status(HttpStatusCodeEnum.OK).json({
-        token: token
+        "msg": "success"
     });
 
     });

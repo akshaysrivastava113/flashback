@@ -5,8 +5,10 @@ require('dotenv').config();
 
 function verifyToken(req:Request, res:Response, next:NextFunction): any {
     const JWT_SECRET = process.env.JWT_SECRET || "";
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1] || "";
+    const tokFromCookie = req.cookies['fl-token'];
+    console.log('header', req.headers)
+    console.log('tokFromCookie', tokFromCookie)
+    const token = tokFromCookie;
     
     if (!JWT_SECRET) {
         console.error(HttpStatusCodeEnum.InternalServerError);

@@ -34,9 +34,12 @@ export default function Signin(){
             axios.post(`${backend_url}/auth/signin`, {
                 "email": emailInput,
                 "password": passwordInput
+            }, {
+                withCredentials: true
             }).then(res => {
-                const token = res.data.token;
-                Cookies.set("fl-token", token, { expires: expiryTime});
+                console.log(res);
+                // const token = res.data.token;
+                // Cookies.set("fl-token", token, { expires: expiryTime});
                 navigate('/');
             }).catch(err => {
                 console.error(err);

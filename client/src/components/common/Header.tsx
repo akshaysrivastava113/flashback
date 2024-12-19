@@ -21,9 +21,7 @@ export default function Header() {
     useEffect(() => {
         if(signedInUser){
             axios.get(`${backend_url}/user/dets`, {
-                headers: {
-                    "Authorization":`Bearer ${signedIntoken}`
-               }
+                withCredentials: true
             })
             .then((res) => {
                 console.log("ran");

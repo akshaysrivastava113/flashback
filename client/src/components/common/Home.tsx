@@ -17,7 +17,8 @@ interface Quest {
 
 export default function Home() {
     const signedIntoken: string | any = Cookies.get("fl-token");
-    const signedInUser: boolean = Cookies.get("fl-token")?true:false;
+    console.log("signedInToken", signedIntoken);
+    const [signedInUser, setSignedInUser] = useState(true);
     const backend_url = process.env.REACT_APP_BACKEND_URL;
     const [questionaires, setQuestionaires] = useState<Quest[]>([]);
     const [loading, setLoading] = useState(false);
@@ -28,11 +29,10 @@ export default function Home() {
             setLoading(true);
             try {
                 const allQuestionaires = await axios.get<Quest[]>(`${backend_url}/`, {
-                    headers: {
-                        "Authorization":`Bearer ${signedIntoken}`
-                    }
+                    withCredentials: true
                 })
     
+                setSignedInUser(true);
                 setQuestionaires(allQuestionaires.data);
                 setLoading(false);
             }catch(e){
